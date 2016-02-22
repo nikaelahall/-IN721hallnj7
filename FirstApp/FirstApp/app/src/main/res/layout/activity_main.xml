@@ -26,18 +26,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView"
+            android:text="@string/application_author"
+            android:id="@+id/authorText"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
         <ImageView
-            android:layout_width="500sp"
-            android:layout_height="50sp"
-            android:id="@+id/imageView"
-            android:layout_below="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/kittenImage"
+            android:layout_below="@+id/authorText"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="44dp"
-            android:background="@android:color/black"/>
+            android:background="@drawable/kitten"/>
     </RelativeLayout>
 </RelativeLayout>
