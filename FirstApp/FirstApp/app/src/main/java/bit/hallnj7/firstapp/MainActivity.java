@@ -1,8 +1,11 @@
 package bit.hallnj7.firstapp;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
 
@@ -37,5 +40,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         txtRandomString.setText(dogBreed);
+
+
+            Resources resourceResolver = getResources();
+            int datesArray[] = resourceResolver.getIntArray(R.array.FebFridays);
+
+        for(int i = 0; i < 4; i++)
+        {
+            
+        }
     }
 }
