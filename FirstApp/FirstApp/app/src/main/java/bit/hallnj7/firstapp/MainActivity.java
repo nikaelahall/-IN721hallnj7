@@ -41,13 +41,20 @@ public class MainActivity extends AppCompatActivity {
 
         txtRandomString.setText(dogBreed);
 
+        TextView textString;
+        String dateText = " ";
 
             Resources resourceResolver = getResources();
             int datesArray[] = resourceResolver.getIntArray(R.array.FebFridays);
+            textString = (TextView) findViewById(R.id.FebText);
 
-        for(int i = 0; i < 4; i++)
+        dateText += "February Fridays are on: ";
+
+        for(int i = 0; i < datesArray.length; i++)
         {
-            
+            dateText += (Integer.toString(datesArray[i]) + " ");
         }
+
+        textString.setText(dateText);
     }
 }
