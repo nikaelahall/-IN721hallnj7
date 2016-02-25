@@ -26,8 +26,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onKey(View v, int keyCode, KeyEvent event)
         {
             v.getId();
-
-            if (event.getAction() == KeyEvent.KEYCODE_AT)
+            if (keyCode == KeyEvent.KEYCODE_AT)
             {
                 Toast.makeText(MainActivity.this, "That was at...", Toast.LENGTH_LONG).show();
             }
