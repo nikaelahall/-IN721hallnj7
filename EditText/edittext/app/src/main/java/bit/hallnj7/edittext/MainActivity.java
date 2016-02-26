@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText TextHandler = (EditText)findViewById(R.id.inputText);
+        EditText TextHandler = (EditText)findViewById(R.id.inputText); //getting a reference to the control
         TextHandler.setOnKeyListener(new TextHandler());
     } //end of onCreate
 
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             String userName = etInput.getText().toString(); /**Converts the EditText input into a String**/
 
             if (keyCode == KeyEvent.KEYCODE_AT) /**If the @ symbol is pressed**/
-            {
+            { //passing in the current activity - MainActivity.this
                 Toast.makeText(MainActivity.this, "That was at...", Toast.LENGTH_LONG).show(); /**Writes to the user when they type in the @ symbol into the editText**/
             }
 
