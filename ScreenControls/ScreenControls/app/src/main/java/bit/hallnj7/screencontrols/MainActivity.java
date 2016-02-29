@@ -5,6 +5,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -48,12 +50,28 @@ public class MainActivity extends AppCompatActivity {
         instrumentGroup.setOnClickListener(new radioGroupListener()); //creates the new class for radioGroupListener
     } //end on create
 
+
+    public class monthsSpinner implements OnItemSelectedListener
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+        {
+           String selectedSpinner = parent.getItemAtPosition(position).toString();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+
+        }
+    }
+
     public class radioGroupListener implements Button.OnClickListener
     {
         @Override
         public void onClick(View v)
         {
-            Toast.makeText(MainActivity.this, "You have enrolled for <instrument> lessons in <month>", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "You have enrolled for <instrument> lessons in " + selectedSpinner, Toast.LENGTH_LONG).show();
         }
     }
 }
