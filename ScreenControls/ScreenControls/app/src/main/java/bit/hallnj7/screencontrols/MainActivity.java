@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Resources resourceResolver = getResources();
 
-        Button confirmButton = (Button) findViewById(R.id.ConfirmationButton);
-        RadioGroup instrumentGroup = (RadioGroup) findViewById(R.id.rbgrpInstruments);
+        Button confirmButton = (Button) findViewById(R.id.ConfirmationButton); //getting a reference to the button control
+        RadioGroup instrumentGroup = (RadioGroup) findViewById(R.id.rbgrpInstruments); //getting a reference to the radio group control
 
         String[] months =
                 {
@@ -39,39 +39,47 @@ public class MainActivity extends AppCompatActivity {
                         "October",
                         "November",
                         "December"
-                };
+                }; //creates the array for the months required - will put this into the resource folder
 
-        Spinner monthsSpinner = (Spinner)findViewById(R.id.monthSpinner);
-        int layoutID = android.R.layout.simple_spinner_item;
+        Spinner monthsSpinner = (Spinner)findViewById(R.id.monthSpinner); //gets the reference to the spinner control
+        int layoutID = android.R.layout.simple_spinner_item; //sets the layout of the spinner
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(this, layoutID, months);
-        monthsSpinner.setAdapter(monthAdapter);
+        monthsSpinner.setAdapter(monthAdapter); //sets the adapter for the spinner
 
-        confirmButton.setOnClickListener(new radioGroupListener());
-        instrumentGroup.setOnClickListener(new radioGroupListener()); //creates the new class for radioGroupListener
+        confirmButton.setOnClickListener(new radioGroupListener()); //sets the onclick listener for the button
+        instrumentGroup.setOnClickListener(new radioGroupListener()); //creates the new class for radioGroupListener, sets onclick listener for the radio group
     } //end on create
 
-
-    public class monthsSpinner implements OnItemSelectedListener
+    public class radioGroupListener implements Button.OnClickListener //creates the new class for the radiogroup listener
     {
         @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+        public void onClick(View v) //when the button is pressed
         {
-           String selectedSpinner = parent.getItemAtPosition(position).toString();
-        }
+            Spinner monthSpinner = (Spinner)findViewById(R.id.monthSpinner); //gets the reference to the spinner control
+            String selectedMonth = monthSpinner.getSelectedItem().toString(); //converts the chosen month to a string called selectedMonth
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parent)
-        {
+            RadioButton rbAccordion = (RadioButton)findViewById(R.id.rbAccordion); //gets the reference to the radio button accordion control
+            RadioButton rbCello = (RadioButton)findViewById(R.id.rbCello); //gets the reference to the radio button cello control
+            RadioButton rbBassoon = (RadioButton)findViewById(R.id.rbBassoon); //gets the reference to the radio button bassoon control
 
-        }
-    }
+            RadioButton rdSelected = null; //sets the radiobutton to be unselected
 
-    public class radioGroupListener implements Button.OnClickListener
-    {
-        @Override
-        public void onClick(View v)
-        {
-            Toast.makeText(MainActivity.this, "You have enrolled for <instrument> lessons in " + selectedSpinner, Toast.LENGTH_LONG).show();
+            if (rbBassoon.isChecked()) //if the bassoon radio button is checked
+                rdSelected = rbBassoon; //the selected one is the bassoon
+
+            if (rbAccordion.isChecked()) //if the accordion radio button is checked
+                rdSelected = rbAccordion; //the selected one is the accordion
+
+            if(rbCello.isChecked())
+                rdSelected = rbCello;
+
+            String chosenInstrument = "";
+
+            if (rdSelected != null) //if the chosen radio button is not null
+                chosenInstrument = rdSelected.getText().toString(); //get the text for the chosen radio button, saving as chosenInstrument
+
+            Toast.makeText(MainActivity.this, "You have enrolled for " + chosenInstrument + " lessons in " + selectedMonth, Toast.LENGTH_LONG).show();
+            //writes the chosen instrument and month starting to the screen once the button is pressed.
         }
     }
 }

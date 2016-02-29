@@ -12,59 +12,53 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enroll for music lessons!"
-        android:textSize="30dp"
-        android:id="@+id/MusicTitle" />
+        android:text="Choose your instrument"
+        android:id="@+id/InstrumentTitle"
+        android:textSize="25dp"
+        android:layout_below="@+id/MusicTitle"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose your instrument"
-        android:id="@+id/InstrumentTitle"
-        android:layout_below="@+id/MusicTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="25dp" />
+        android:text="Enroll for music lessons!"
+        android:textSize="30dp"
+        android:id="@+id/MusicTitle" />
 
     <RadioGroup
-        android:layout_width="wrap_content"
+        android:layout_width="126dp"
         android:layout_height="150dp"
-        android:layout_marginTop="46dp"
         android:id="@+id/rbgrpInstruments"
-        android:layout_below="@+id/InstrumentTitle"
-        android:layout_centerHorizontal="true">
+        android:layout_marginTop="100dp">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Accordion"
-            android:id="@+id/rbAccordion"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/rbAccordion" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bassoon"
-            android:id="@+id/rbBassoon"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/rbBassoon" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cello"
-            android:id="@+id/rbCello"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/rbCello" />
 
     </RadioGroup>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirm"
+        android:text="Enroll me"
         android:id="@+id/ConfirmationButton"
+
         android:layout_below="@+id/monthSpinner"
-        android:layout_alignRight="@+id/rbgrpInstruments"
-        android:layout_alignEnd="@+id/rbgrpInstruments" />
+        android:layout_centerHorizontal="true" />
 
     <Spinner
         android:layout_width="wrap_content"
