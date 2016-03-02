@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button ActivityAButton = (Button) findViewById(R.id.ActivityAButton); //reference to a button control
-        ActivityAButton.setOnClickListener(new View.OnClickListener);
+        ActivityAButton.setOnClickListener(new ChangeActivityButtonClickHandler()); //creates the new class
     }
 
     class ChangeActivityButtonClickHandler implements View.OnClickListener
