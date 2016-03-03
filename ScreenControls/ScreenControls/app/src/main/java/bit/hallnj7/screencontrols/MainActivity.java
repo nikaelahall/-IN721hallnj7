@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
             if (rdSelected != null) //if the chosen radio button is not null
                 chosenInstrument = rdSelected.getText().toString(); //get the text for the chosen radio button, saving as chosenInstrument
 
+            if (rdSelected == null)
+                Toast.makeText(MainActivity.this, "Please select an option", Toast.LENGTH_LONG);
+
             Toast.makeText(MainActivity.this, "You have enrolled for " + chosenInstrument + " lessons in " + selectedMonth, Toast.LENGTH_LONG).show();
             //writes the chosen instrument and month starting to the screen once the button is pressed.
         }
