@@ -12,7 +12,7 @@ public class WelcomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
 
-        int STARTER_DELAY = this.getResources().getInteger(R.integer.startUpDelay);
+        int STARTER_DELAY = this.getResources().getInteger(R.integer.startUpDelay); //sets the delay timer length
 
         android.os.Handler handler = new android.os.Handler();
 
@@ -24,6 +24,6 @@ public class WelcomeScreen extends AppCompatActivity {
                 Intent openNextActivity = new Intent(WelcomeScreen.this, MainActivity.class);
                 startActivity(openNextActivity);
             }
-        }, STARTER_DELAY);
+        }, STARTER_DELAY); //calls the delay timer 
     }
 }
