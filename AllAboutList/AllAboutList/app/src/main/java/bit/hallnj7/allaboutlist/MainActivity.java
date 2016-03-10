@@ -43,35 +43,35 @@ public class MainActivity extends AppCompatActivity {
   //  }
 
     public class DunedinGroupListClickHandler implements AdapterView.OnItemClickListener
-    {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            String clickedItem = (String) parent.getItemAtPosition(position).toString();
-            Intent goToIntent;
-
-            switch(clickedItem)
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                case "Services":
-                    goToIntent = new Intent(MainActivity.this, ServiceActivity.class);
-                    break;
-                case "Fun things to do":
-                    goToIntent = new Intent(MainActivity.this, FunThingsToDoActivity.class);
-                    break;
-                case "Dining":
-                    goToIntent = new Intent(MainActivity.this, DiningActivity.class);
-                    break;
-                case "Shopping":
-                    goToIntent = new Intent(MainActivity.this, ShoppingActivity.class);
-                    break;
-                default:
-                    goToIntent = null;
-            } //end switch
+                String clickedItem = (String) parent.getItemAtPosition(position).toString();
+                Intent goToIntent;
 
-            if (goToIntent != null)
-            {
-                startActivity(goToIntent);
-            }
-        }//end on itemClick
+                switch(clickedItem)
+                {
+                    case "Services":
+                        goToIntent = new Intent(MainActivity.this, ServiceActivity.class);
+                        break;
+                    case "Fun things to do":
+                        goToIntent = new Intent(MainActivity.this, FunThingsToDoActivity.class);
+                        break;
+                    case "Dining":
+                        goToIntent = new Intent(MainActivity.this, DiningActivity.class);
+                        break;
+                    case "Shopping":
+                        goToIntent = new Intent(MainActivity.this, ShoppingActivity.class);
+                        break;
+                    default:
+                        goToIntent = null;
+                } //end switch
+
+                if (goToIntent != null)
+                {
+                    startActivity(goToIntent);
+                }
+            }//end on itemClick
     }
 }
