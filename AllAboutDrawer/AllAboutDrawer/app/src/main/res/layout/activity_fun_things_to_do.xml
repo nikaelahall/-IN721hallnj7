@@ -15,6 +15,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Fun things to do"
         android:id="@+id/textView"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/imageView4"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="500px"
+        android:id="@+id/imageView4"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/trainstation"/>
 </RelativeLayout>

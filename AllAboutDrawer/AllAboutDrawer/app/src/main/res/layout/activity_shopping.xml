@@ -16,5 +16,14 @@
         android:text="Shopping"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="500px"
+        android:id="@+id/imageView"
+        android:src="@drawable/shopping"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
