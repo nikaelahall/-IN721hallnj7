@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Colour change"
-        android:id="@+id/tvBodyText"
+        android:id="@+id/TextViewBody"
         android:layout_marginTop="92dp"
         android:layout_below="@+id/tvTitle"
         android:layout_alignParentLeft="true"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change colour of text"
-        android:id="@+id/btnChangeColour"
+        android:id="@+id/ColourButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="63dp" />
