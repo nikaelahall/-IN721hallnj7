@@ -22,18 +22,30 @@ public class MainActivity extends AppCompatActivity {
 
         Intent launchIntent = getIntent();
         TextView username = (TextView) findViewById(R.id.usernameText);
+        String enteredUsername;
+        enteredUsername = launchIntent.getStringExtra("Username");
 
-       if(username.getText() == getResources().getString(R.string.usernameText))
+        if (enteredUsername != null)
+        {
+            username.setText(enteredUsername);
+        }
+
+        else if (username.getText() == getResources().getString(R.string.usernameText))
+        {
+            Toast.makeText(this, "Please enter a username", Toast.LENGTH_LONG).show();
+        }
+
+      // if(username.getText() == getResources().getString(R.string.usernameText))
         //if(username.getText() == "Your Username:")
-        {
-           Toast.makeText(this, "Please enter a username", Toast.LENGTH_LONG).show();
-        }
+       // {
+       //    Toast.makeText(this, "Please enter a username", Toast.LENGTH_LONG).show();
+       // }
 
-        else
-        {
-            TextView TextUserName = (TextView) findViewById(R.id.usernameText);
-            TextUserName.setText(launchIntent.getStringExtra("Username"));
-        }
+      //  else
+      //  {
+         //   TextView TextUserName = (TextView) findViewById(R.id.usernameText);
+        //    TextUserName.setText(launchIntent.getStringExtra("Username"));
+       // }
 
     } //end onCreate
 
