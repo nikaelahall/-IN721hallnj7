@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">DataPassing</string>
-    <string name="usernameText">No username yet</string>
+    <string name="usernameText">Your Username:</string>
 </resources>

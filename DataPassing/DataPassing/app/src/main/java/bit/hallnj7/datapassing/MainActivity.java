@@ -23,9 +23,10 @@ public class MainActivity extends AppCompatActivity {
         Intent launchIntent = getIntent();
         TextView username = (TextView) findViewById(R.id.usernameText);
 
-        if(username.getText() == getResources().getString(R.string.usernameText))
+       if(username.getText() == getResources().getString(R.string.usernameText))
+        //if(username.getText() == "Your Username:")
         {
-            //Toast.makeText(this, "Please enter a username", Toast.LENGTH_LONG).show();
+           Toast.makeText(this, "Please enter a username", Toast.LENGTH_LONG).show();
         }
 
         else
