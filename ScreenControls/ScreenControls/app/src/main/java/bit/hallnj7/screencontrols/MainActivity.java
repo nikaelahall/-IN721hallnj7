@@ -1,5 +1,6 @@
 package bit.hallnj7.screencontrols;
 
+import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -9,20 +10,29 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import org.w3c.dom.Text;
+
+public class MainActivity extends AppCompatActivity
+{
+    AlertBuilderFragment confirmClass;
+    private Spinner monthSpinner;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Resources resourceResolver = getResources();
 
         Button confirmButton = (Button) findViewById(R.id.ConfirmationButton); //getting a reference to the button control
+        confirmButton.setOnClickListener(new CreateFragmentButtonHandler());
         RadioGroup instrumentGroup = (RadioGroup) findViewById(R.id.rbgrpInstruments); //getting a reference to the radio group control
 
         String[] months =
@@ -46,11 +56,37 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(this, layoutID, months);
         monthsSpinner.setAdapter(monthAdapter); //sets the adapter for the spinner
 
-        confirmButton.setOnClickListener(new radioGroupListener()); //sets the onclick listener for the button
-        instrumentGroup.setOnClickListener(new radioGroupListener()); //creates the new class for radioGroupListener, sets onclick listener for the radio group
+        //confirmButton.setOnClickListener(new radioGroupListener()); //sets the onclick listener for the button
+       // instrumentGroup.setOnClickListener(new radioGroupListener()); //creates the new class for radioGroupListener, sets onclick listener for the radio group
     } //end on create
 
-    public class radioGroupListener implements Button.OnClickListener //creates the new class for the radiogroup listener
+
+    public void giveMeMyData(boolean confirmation)
+    {
+        confirmClass.dismiss();
+
+        RadioGroup instruments = (RadioGroup) findViewById(R.id.rbgrpInstruments);
+        int InstrumentId = instruments.getCheckedRadioButtonId();
+        RadioButton ChosenInstrument = (RadioButton) findViewById(InstrumentId);
+        TextView text = (TextView) findViewById(R.id.textView);
+        monthSpinner = (Spinner)findViewById(R.id.monthSpinner);
+        String selectedMonth = monthSpinner.getSelectedItem().toString();
+
+
+        if (confirmation)
+        {
+         //   Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_LONG).show();
+            text.setText("You are enrolled for " + ChosenInstrument.getText() + " lessons in " + monthSpinner.getSelectedItem().toString());
+        }
+
+        else
+        {
+            //Toast.makeText(MainActivity.this, "Unsuccessful", Toast.LENGTH_LONG).show();
+           text.setText("Oh well...");
+        }
+    }
+
+    public class CreateFragmentButtonHandler implements View.OnClickListener //creates the new class for the radiogroup listener
     {
         @Override
         public void onClick(View v) //when the button is pressed
@@ -81,8 +117,15 @@ public class MainActivity extends AppCompatActivity {
             if (rdSelected == null)
                 Toast.makeText(MainActivity.this, "Please select an option", Toast.LENGTH_LONG);
 
-            Toast.makeText(MainActivity.this, "You have enrolled for " + chosenInstrument + " lessons in " + selectedMonth, Toast.LENGTH_LONG).show();
+            confirmClass = new AlertBuilderFragment();
+            FragmentManager fm = getFragmentManager();
+            confirmClass.show(fm, "confirm");
+
+
+            //Toast.makeText(MainActivity.this, "You have enrolled for " + chosenInstrument + " lessons in " + selectedMonth, Toast.LENGTH_LONG).show();
             //writes the chosen instrument and month starting to the screen once the button is pressed.
         }
     }
+
+
 }
