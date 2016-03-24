@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="imagesArray">
+        <item>@drawable/das_auto</item>
+        <item>@drawable/das_haus</item>
+        <item>@drawable/das_schaf</item>
+        <item>@drawable/der_apfel</item>
+        <item>@drawable/der_baum</item>
+        <item>@drawable/der_stuhl</item>
+    </array>
+</resources>
