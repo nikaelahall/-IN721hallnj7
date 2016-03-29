@@ -31,6 +31,7 @@ public class AlertBuilderFragment extends DialogFragment
         public void onClick(DialogInterface dialog, int which)
         {
             questionActivity qActivity = (questionActivity)getActivity();
+            qActivity.giveMeMyData(true);
         }
     }
 
@@ -40,6 +41,7 @@ public class AlertBuilderFragment extends DialogFragment
         public void onClick(DialogInterface dialog, int which)
         {
             questionActivity qActivity = (questionActivity)getActivity();
+            qActivity.giveMeMyData(false);
         }
     }
 }

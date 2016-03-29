@@ -19,10 +19,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class welcomeScreen extends AppCompatActivity {
-
-    int[] imageId;
-    public static int[] imageArray = new int[11];
+public class welcomeScreen extends AppCompatActivity
+{
+   // Manager manager = new Manager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +32,8 @@ public class welcomeScreen extends AppCompatActivity {
         btnStart.setOnClickListener(new changeToQuestionPageHandler());
 
         TextView text = (TextView) findViewById(R.id.tvSettext);
+
+       // manager.initialiseStart();
     }
 
     class changeToQuestionPageHandler implements View.OnClickListener

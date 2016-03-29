@@ -8,14 +8,23 @@ import java.util.Random;
 
 public class Manager
 {
-        public static Question[] questionArray;
+    public Manager()
+    { }
 
-        public Manager()
-        {
-            questionArray = new Question[11];
-            generateQuestions();
-            shuffleQuestion();
-        }
+    public Question[] getQuestionArray()
+    {
+        return questionArray;
+    }
+
+    public Question[] questionArray;
+
+
+    public void initialiseStart()
+    {
+        questionArray = new Question[11];
+        generateQuestions();
+        shuffleQuestion();
+    }
 
     public void generateQuestions()
     {
@@ -32,7 +41,7 @@ public class Manager
         questionArray[10] = new Question("Strasse", "Die", "die_strasse");
     }
 
-    public static void shuffleQuestion()
+    public void shuffleQuestion()
     {
         Random rand = new Random();
 

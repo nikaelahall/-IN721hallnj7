@@ -2,8 +2,17 @@ package bit.hallnj7.langtrainer;
 
 public class Question
 {
-        private String noun;
-        private String article;
+
+    public Question(){}
+
+    private String noun;
+    private String article;
+
+
+    public String getArticle()
+    {
+        return article;
+    }
 
     public String getImageId()
     {

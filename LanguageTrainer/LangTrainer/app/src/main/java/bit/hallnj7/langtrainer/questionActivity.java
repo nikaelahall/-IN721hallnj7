@@ -12,15 +12,21 @@ import android.widget.Toast;
 
 public class questionActivity extends AppCompatActivity {
 
-    Question displayQuestion;
+    Manager manager = new Manager();
+    Question[] displayQuestion;
+
     AlertBuilderFragment confirmClass;
+    String answer = "";
+    int currentQuestion = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
-        displayQuestion = Manager.questionArray[0]; //load the first question
+        manager.initialiseStart();
+
+        displayQuestion = manager.getQuestionArray();
         generateImg();
 
         ImageView imgView = (ImageView) findViewById(R.id.imgvQuestion);
@@ -43,13 +49,13 @@ public class questionActivity extends AppCompatActivity {
             switch(v.getId())
             {
                 case R.id.btnDie:
-                    Toast.makeText(questionActivity.this, "Die button pressed", Toast.LENGTH_LONG).show();
+                    answer = "Die";
                     break;
                 case R.id.btnDer:
-                    Toast.makeText(questionActivity.this, "Der button pressed", Toast.LENGTH_LONG).show();
+                    answer = "Der";
                     break;
                 case R.id.btnDas:
-                    Toast.makeText(questionActivity.this, "Das button pressed", Toast.LENGTH_LONG).show();
+                    answer = "Das";
                     break;
             }
 
@@ -65,19 +71,27 @@ public class questionActivity extends AppCompatActivity {
 
         if (confirm)
         {
-            Toast.makeText(questionActivity.this, "you chose yes", Toast.LENGTH_LONG).show();
-        }
+           String chosenAnswer = displayQuestion[currentQuestion].getArticle();
+           if (chosenAnswer == answer)
+           {
+               Toast.makeText(questionActivity.this, "Correct", Toast.LENGTH_SHORT).show();
+               currentQuestion++;
+               generateImg();
+            }
 
-        else
-        {
-            Toast.makeText(questionActivity.this, "you chose no", Toast.LENGTH_LONG).show();
+            else
+            {
+                Toast.makeText(questionActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
+                currentQuestion++;
+                generateImg();
+            }
         }
     }
 
     public void generateImg()
     {
         Resources res = getResources();
-        String imgName = displayQuestion.getImageId();
+        String imgName = displayQuestion[currentQuestion].getImageId();
         int imgId = res.getIdentifier(imgName, "drawable", getPackageName());
         ImageView imgView = (ImageView) findViewById(R.id.imgvQuestion);
         imgView.setImageResource(imgId);
