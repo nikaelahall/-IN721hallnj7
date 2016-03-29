@@ -15,8 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".questionClass" />
-        <activity android:name=".scoreScreen"></activity>
+        <activity android:name=".scoreScreen" />
+        <activity android:name=".questionActivity"></activity>
     </application>
 
 </manifest>
