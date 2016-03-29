@@ -53,6 +53,8 @@ public class Manager
             questionArray[randPosition] = temp;
         }
     }
+
+    //generate score goes here
 }
 
 

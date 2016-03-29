@@ -2,6 +2,7 @@ package bit.hallnj7.langtrainer;
 
 import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class questionActivity extends AppCompatActivity {
     AlertBuilderFragment confirmClass;
     String answer = "";
     int currentQuestion = 0;
+    int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class questionActivity extends AppCompatActivity {
            {
                Toast.makeText(questionActivity.this, "Correct", Toast.LENGTH_SHORT).show();
                currentQuestion++;
+               score++; //use data passing to get the score to the score page
                generateImg();
             }
 
@@ -90,10 +93,20 @@ public class questionActivity extends AppCompatActivity {
 
     public void generateImg()
     {
-        Resources res = getResources();
-        String imgName = displayQuestion[currentQuestion].getImageId();
-        int imgId = res.getIdentifier(imgName, "drawable", getPackageName());
-        ImageView imgView = (ImageView) findViewById(R.id.imgvQuestion);
-        imgView.setImageResource(imgId);
+        if (currentQuestion < displayQuestion.length)
+        {
+            Resources res = getResources();
+            String imgName = displayQuestion[currentQuestion].getImageId();
+            int imgId = res.getIdentifier(imgName, "drawable", getPackageName());
+            ImageView imgView = (ImageView) findViewById(R.id.imgvQuestion);
+            imgView.setImageResource(imgId);
+        }
+
+        else
+        {
+            Intent changeActivityIntent = new Intent(questionActivity.this, scoreScreen.class);
+            changeActivityIntent.putExtra("Score", score);
+            startActivity(changeActivityIntent);
+        }
     }
 }
