@@ -23,9 +23,10 @@
         android:layout_height="wrap_content"
         android:text="Das"
         android:id="@+id/btnDas"
+        android:layout_marginBottom="66dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="131dp" />
+        android:layout_alignLeft="@+id/btnDer"
+        android:layout_alignStart="@+id/btnDer" />
 
     <Button
         android:layout_width="wrap_content"
