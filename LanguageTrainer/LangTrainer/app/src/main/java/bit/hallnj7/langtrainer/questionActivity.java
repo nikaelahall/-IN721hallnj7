@@ -105,7 +105,8 @@ public class questionActivity extends AppCompatActivity {
         else
         {
             Intent changeActivityIntent = new Intent(questionActivity.this, scoreScreen.class);
-            changeActivityIntent.putExtra("Score", score);
+            String totScore = Integer.toString(score);
+            changeActivityIntent.putExtra("totscore", totScore);
             startActivity(changeActivityIntent);
         }
     }

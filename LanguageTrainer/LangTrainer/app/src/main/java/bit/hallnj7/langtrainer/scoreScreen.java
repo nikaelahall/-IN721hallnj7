@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 public class scoreScreen extends AppCompatActivity {
 
+    Manager manager = new Manager();
+    Question[] displayQuestion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -15,9 +18,10 @@ public class scoreScreen extends AppCompatActivity {
         setContentView(R.layout.activity_score_screen);
 
         Intent launchIntent = getIntent();
-        int calculatedScore = launchIntent.getIntExtra("Score", 0);
+        TextView scoretext = (TextView)findViewById(R.id.etScore);
+        String calculatedScore;
+        calculatedScore = launchIntent.getStringExtra("totscore");
 
-        EditText scoreText = (EditText)findViewById(R.id.etScore);
-        scoreText.setText(calculatedScore);
+        scoretext.setText(calculatedScore);
     }
 }
