@@ -8,27 +8,27 @@ import java.util.Random;
 
 public class Manager
 {
-    public Manager()
+    public Manager() //empty constructor
     { }
 
-    public Question[] getQuestionArray()
+    public Question[] getQuestionArray() //returns the questionArray
     {
         return questionArray;
     }
 
-    public Question[] questionArray;
+    public Question[] questionArray; //creates the questionArray
 
 
-    public void initialiseStart()
+    public void initialiseStart() //method that runs during start up
     {
-        questionArray = new Question[11];
-        generateQuestions();
-        shuffleQuestion();
+        questionArray = new Question[11]; //creates the questionArray with 11 objects
+        generateQuestions(); //runs the generateQuestions method
+        shuffleQuestion(); //runs the shuffle questions method
     }
 
-    public void generateQuestions()
+    public void generateQuestions() //generates the questions in an array
     {
-        questionArray[0] = new Question("Auto", "Das", "das_auto");
+        questionArray[0] = new Question("Auto", "Das", "das_auto"); //new question with an article, noun and image
         questionArray[1] = new Question("Haus", "Das", "das_haus");
         questionArray[2] = new Question("Schaf", "Das", "das_schaf");
         questionArray[3] = new Question("Apfel", "Der", "der_apfel");
@@ -41,20 +41,18 @@ public class Manager
         questionArray[10] = new Question("Strasse", "Die", "die_strasse");
     }
 
-    public void shuffleQuestion()
+    public void shuffleQuestion() //method that shuffles the questions
     {
-        Random rand = new Random();
+        Random rand = new Random(); //random number
 
         for(int i = 0; i < questionArray.length; i++)
         {
             int randPosition = rand.nextInt(questionArray.length);
-            Question temp = questionArray[i];
-            questionArray[i] = questionArray[randPosition];
-            questionArray[randPosition] = temp;
+            Question temp = questionArray[i];//makes a temporary position in the array to swap objects
+            questionArray[i] = questionArray[randPosition]; //swaps two of the array objects
+            questionArray[randPosition] = temp; //puts one of the objects into the temporary position of the array
         }
     }
-
-    //generate score goes here
 }
 
 

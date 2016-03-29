@@ -17,19 +17,19 @@ public class questionActivity extends AppCompatActivity {
     Question[] displayQuestion;
 
     AlertBuilderFragment confirmClass;
-    String answer = "";
+    String answer = ""; //sets the initial chosen answer to zero
     int currentQuestion = 0;
-    int score = 0;
+    int score = 0; //sets the initial score to zero
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
-        manager.initialiseStart();
+        manager.initialiseStart(); //runs the initialise start method from the manager class
 
         displayQuestion = manager.getQuestionArray();
-        generateImg();
+        generateImg(); //runs the generate image method
 
         ImageView imgView = (ImageView) findViewById(R.id.imgvQuestion);
 
@@ -48,10 +48,10 @@ public class questionActivity extends AppCompatActivity {
         @Override
         public void onClick(View v)
         {
-            switch(v.getId())
+            switch(v.getId()) //gets the ID of the pressed button
             {
                 case R.id.btnDie:
-                    answer = "Die";
+                    answer = "Die"; //if the die button is pressed, answer equals "die".
                     break;
                 case R.id.btnDer:
                     answer = "Der";
@@ -61,7 +61,7 @@ public class questionActivity extends AppCompatActivity {
                     break;
             }
 
-            confirmClass = new AlertBuilderFragment();
+            confirmClass = new AlertBuilderFragment(); //calls the alertbuilder fragment when a button is pressed
             FragmentManager fm = getFragmentManager();
             confirmClass.show(fm, "confirm");
         }
@@ -74,39 +74,39 @@ public class questionActivity extends AppCompatActivity {
         if (confirm)
         {
            String chosenAnswer = displayQuestion[currentQuestion].getArticle();
-           if (chosenAnswer == answer)
+           if (chosenAnswer == answer) //if the answer is correct
            {
                Toast.makeText(questionActivity.this, "Correct", Toast.LENGTH_SHORT).show();
-               currentQuestion++;
-               score++; //use data passing to get the score to the score page
+               currentQuestion++; //generates the next question when confirm button is pressed
+               score++; //generates the score with each correct answer chosen
                generateImg();
             }
 
-            else
+            else //if the answer is incorrect and the confirm button is pressed
             {
                 Toast.makeText(questionActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
-                currentQuestion++;
-                generateImg();
+                currentQuestion++; //generate the next question
+                generateImg(); //generate the image on the screen
             }
         }
     }
 
-    public void generateImg()
+    public void generateImg() //generates the image on the screen
     {
-        if (currentQuestion < displayQuestion.length)
+        if (currentQuestion < displayQuestion.length) //while the question number is less than the array length
         {
             Resources res = getResources();
-            String imgName = displayQuestion[currentQuestion].getImageId();
-            int imgId = res.getIdentifier(imgName, "drawable", getPackageName());
+            String imgName = displayQuestion[currentQuestion].getImageId(); //display the question
+            int imgId = res.getIdentifier(imgName, "drawable", getPackageName()); //gets the image for the current question
             ImageView imgView = (ImageView) findViewById(R.id.imgvQuestion);
-            imgView.setImageResource(imgId);
+            imgView.setImageResource(imgId); //sets the imageView to the image for the particular question
         }
 
         else
         {
-            Intent changeActivityIntent = new Intent(questionActivity.this, scoreScreen.class);
-            String totScore = Integer.toString(score);
-            changeActivityIntent.putExtra("totscore", totScore);
+            Intent changeActivityIntent = new Intent(questionActivity.this, scoreScreen.class); //changes the intent to the score Screen
+            String totScore = Integer.toString(score); //Changes the score value to a string
+            changeActivityIntent.putExtra("totscore", totScore); //send the score value to the score screen
             startActivity(changeActivityIntent);
         }
     }

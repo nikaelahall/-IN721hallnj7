@@ -21,8 +21,6 @@ import java.util.Collections;
 
 public class welcomeScreen extends AppCompatActivity
 {
-   // Manager manager = new Manager();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,19 +30,15 @@ public class welcomeScreen extends AppCompatActivity
         btnStart.setOnClickListener(new changeToQuestionPageHandler());
 
         TextView text = (TextView) findViewById(R.id.tvSettext);
-
-       // manager.initialiseStart();
     }
 
     class changeToQuestionPageHandler implements View.OnClickListener
     {
         @Override
-        public void onClick(View v)
+        public void onClick(View v)//on buttonClick
         {
-            Intent changeActivityIntent = new Intent(welcomeScreen.this, questionActivity.class);
+            Intent changeActivityIntent = new Intent(welcomeScreen.this, questionActivity.class); //changes to the questionActivity
             startActivity(changeActivityIntent);
         }
     }
-
-
 }

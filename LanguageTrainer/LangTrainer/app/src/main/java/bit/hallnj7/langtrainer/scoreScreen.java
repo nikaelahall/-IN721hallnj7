@@ -20,8 +20,8 @@ public class scoreScreen extends AppCompatActivity {
         Intent launchIntent = getIntent();
         TextView scoretext = (TextView)findViewById(R.id.etScore);
         String calculatedScore;
-        calculatedScore = launchIntent.getStringExtra("totscore");
+        calculatedScore = launchIntent.getStringExtra("totscore"); //gets the totalScore screen from the questionActivity
 
-        scoretext.setText(calculatedScore);
+        scoretext.setText(calculatedScore);//Displays the total score to the TextView
     }
 }

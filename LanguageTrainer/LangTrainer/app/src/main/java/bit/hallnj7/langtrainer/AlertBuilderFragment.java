@@ -15,33 +15,33 @@ public class AlertBuilderFragment extends DialogFragment
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setIcon(R.drawable.placeholder);
+        builder.setIcon(R.drawable.placeholder); //sets the fragment icon image
         builder.setTitle("Confirm answer?");
-        builder.setPositiveButton("Confirm", new YesButtonHandler());
-        builder.setNegativeButton("Cancel", new NoButtonHandler());
+        builder.setPositiveButton("Confirm", new YesButtonHandler()); //sets the positive confirm button
+        builder.setNegativeButton("Cancel", new NoButtonHandler()); //sets the negative cancel button
 
         Dialog customDialog = builder.create();
 
         return customDialog;
     }
 
-    public class YesButtonHandler implements DialogInterface.OnClickListener
+    public class YesButtonHandler implements DialogInterface.OnClickListener //onCLick listener for the yes button
     {
         @Override
-        public void onClick(DialogInterface dialog, int which)
+        public void onClick(DialogInterface dialog, int which) //if the Confirm button is pressed
         {
             questionActivity qActivity = (questionActivity)getActivity();
-            qActivity.giveMeMyData(true);
+            qActivity.giveMeMyData(true); //run the giveMeMyData method
         }
     }
 
-    public class NoButtonHandler implements DialogInterface.OnClickListener
+    public class NoButtonHandler implements DialogInterface.OnClickListener //onCLickListener for the no button
     {
         @Override
-        public void onClick(DialogInterface dialog, int which)
+        public void onClick(DialogInterface dialog, int which) //if the Cancel button is pressed
         {
             questionActivity qActivity = (questionActivity)getActivity();
-            qActivity.giveMeMyData(false);
+            qActivity.giveMeMyData(false); //do not run the giveMeMyData method
         }
     }
 }
