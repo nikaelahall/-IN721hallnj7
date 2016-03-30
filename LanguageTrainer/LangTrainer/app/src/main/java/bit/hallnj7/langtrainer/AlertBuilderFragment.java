@@ -15,10 +15,15 @@ public class AlertBuilderFragment extends DialogFragment
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+        questionActivity question = new questionActivity();
+
+        String chosenAns = getArguments().getString("chosenAns");
+
         builder.setIcon(R.drawable.placeholder); //sets the fragment icon image
-        builder.setTitle("Confirm answer?");
+        builder.setTitle("Confirm answer?" + chosenAns);
         builder.setPositiveButton("Confirm", new YesButtonHandler()); //sets the positive confirm button
         builder.setNegativeButton("Cancel", new NoButtonHandler()); //sets the negative cancel button
+
 
         Dialog customDialog = builder.create();
 

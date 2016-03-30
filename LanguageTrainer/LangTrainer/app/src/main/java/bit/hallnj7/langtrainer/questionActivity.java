@@ -17,9 +17,15 @@ public class questionActivity extends AppCompatActivity {
     Question[] displayQuestion;
 
     AlertBuilderFragment confirmClass;
+
     String answer = ""; //sets the initial chosen answer to zero
     int currentQuestion = 0;
     int score = 0; //sets the initial score to zero
+
+    public String getAnswer()
+    {
+        return answer;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,10 @@ public class questionActivity extends AppCompatActivity {
             confirmClass = new AlertBuilderFragment(); //calls the alertbuilder fragment when a button is pressed
             FragmentManager fm = getFragmentManager();
             confirmClass.show(fm, "confirm");
+
+            Bundle bundle = new Bundle();
+            bundle.putString("chosenAns", answer);
+            confirmClass.setArguments(bundle);
         }
     }
 
