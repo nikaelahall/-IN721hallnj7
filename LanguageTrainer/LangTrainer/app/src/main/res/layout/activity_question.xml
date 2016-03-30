@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:text="Das"
         android:id="@+id/btnDas"
-        android:layout_marginBottom="66dp"
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/btnDer"
         android:layout_alignStart="@+id/btnDer" />
