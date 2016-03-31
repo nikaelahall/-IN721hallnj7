@@ -27,9 +27,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Please press start to continue"
         android:id="@+id/tvPressNextContinue"
-        android:layout_below="@+id/tvGermanLanguageTrainer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
+        android:layout_above="@+id/btnStart"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -38,14 +37,32 @@
         android:id="@+id/btnStart"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="79dp" />
+        android:layout_marginBottom="28dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/tvSettext"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/tvPressNextContinue"
-        android:layout_alignStart="@+id/tvPressNextContinue" />
+        android:id="@+id/tvSettext" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/welcomeimage"
+        android:layout_below="@+id/tvGermanLanguageTrainer"
+        android:layout_alignLeft="@+id/tvGermanLanguageTrainer"
+        android:layout_alignStart="@+id/tvGermanLanguageTrainer"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Select the correct article for the object displayed on the image during the game."
+        android:id="@+id/textView3"
+        android:layout_below="@+id/imageView"
+        android:layout_toRightOf="@+id/tvSettext"
+        android:layout_toEndOf="@+id/tvSettext"
+        android:layout_marginTop="40dp" />
 </RelativeLayout>

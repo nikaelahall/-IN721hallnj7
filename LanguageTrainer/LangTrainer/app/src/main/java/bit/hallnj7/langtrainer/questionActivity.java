@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class questionActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class questionActivity extends AppCompatActivity {
     String answer = ""; //sets the initial chosen answer to zero
     int currentQuestion = 0;
     int score = 0; //sets the initial score to zero
+    TextView qNumber;
 
     public String getAnswer()
     {
@@ -38,6 +40,7 @@ public class questionActivity extends AppCompatActivity {
         generateImg(); //runs the generate image method
 
         ImageView imgView = (ImageView) findViewById(R.id.imgvQuestion);
+        qNumber = (TextView)findViewById(R.id.tvQuestionNumber);
 
         Button btnDie = (Button) findViewById(R.id.btnDie);
         btnDie.setOnClickListener(new ButtonClickHandler());
@@ -47,6 +50,13 @@ public class questionActivity extends AppCompatActivity {
 
         Button btnDas = (Button) findViewById(R.id.btnDas);
         btnDas.setOnClickListener(new ButtonClickHandler());
+
+        questionNumber();
+    }
+
+    public void questionNumber()
+    {
+        qNumber.setText("Question number " + ((String.valueOf(currentQuestion +1 )) + " /11"));
     }
 
     public class ButtonClickHandler implements View.OnClickListener
@@ -71,7 +81,7 @@ public class questionActivity extends AppCompatActivity {
             FragmentManager fm = getFragmentManager();
             confirmClass.show(fm, "confirm");
 
-            Bundle bundle = new Bundle();
+            Bundle bundle = new Bundle(); //sends the chosen answer to the dialogue fragment.
             bundle.putString("chosenAns", answer);
             confirmClass.setArguments(bundle);
         }
@@ -90,6 +100,7 @@ public class questionActivity extends AppCompatActivity {
                currentQuestion++; //generates the next question when confirm button is pressed
                score++; //generates the score with each correct answer chosen
                generateImg();
+               questionNumber();
             }
 
             else //if the answer is incorrect and the confirm button is pressed
@@ -97,6 +108,7 @@ public class questionActivity extends AppCompatActivity {
                 Toast.makeText(questionActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
                 currentQuestion++; //generate the next question
                 generateImg(); //generate the image on the screen
+                questionNumber();
             }
         }
     }

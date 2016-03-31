@@ -30,8 +30,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvScore"
+        android:textSize="100px"
+        android:layout_marginBottom="82dp"
+        android:layout_above="@+id/btnTryAgain"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="700px"
+        android:layout_height="700px"
+        android:id="@+id/imageView2"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="147dp"
-        android:textSize="100px" />
+        android:layout_marginTop="32dp"
+        android:src="@drawable/welcomeimage"/>
 </RelativeLayout>

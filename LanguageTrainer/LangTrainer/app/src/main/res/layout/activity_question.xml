@@ -23,9 +23,8 @@
         android:layout_height="wrap_content"
         android:text="Das"
         android:id="@+id/btnDas"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/btnDer"
-        android:layout_alignStart="@+id/btnDer" />
+        android:layout_above="@+id/tvResult"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -44,11 +43,28 @@
         android:layout_centerHorizontal="true" />
 
     <ImageView
+        android:layout_width="700px"
+        android:layout_height="700px"
+        android:id="@+id/imgvQuestion"
+        android:layout_above="@+id/btnDie"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvQuestionNumber" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imgvQuestion"
+        android:id="@+id/tvQuestionNumber"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp" />
+        android:layout_alignLeft="@+id/imgvQuestion"
+        android:layout_alignStart="@+id/imgvQuestion"
+        android:textSize="60px"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/tvResult"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
