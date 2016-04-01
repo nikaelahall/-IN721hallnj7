@@ -18,9 +18,6 @@ public class ChangingColours extends AppCompatActivity {
         //not sure why this getColor is underlined, but this line of code still works?
         String strRedColor = "#" + Integer.toHexString(getResources().getColor(R.color.red, null));
 
-        //int strRedColor = getResources().getColor(R.color.red, null);
-       // String strRed = "#"+Integer.toHexString(strRedColor);
-
         changeActivityIntent.putExtra("requestedResult", strRedColor);
         setResult(Activity.RESULT_OK, changeActivityIntent);
         finish();
