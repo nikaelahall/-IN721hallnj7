@@ -24,10 +24,11 @@ public class FunThingsToDoActivity extends AppCompatActivity
 
         initialiseDataArray();
 
-        ArrayAdapter<funActivity>funActivityAdapter = new ArrayAdapter<funActivity>(this, R.layout.custom_listview_item, funActivitiesArray);
+        funActivitiesArrayAdapter funActivitiesArrayAdapter = new funActivitiesArrayAdapter(this, R.layout.custom_listview_item, funActivitiesArray);
+       // ArrayAdapter<funActivity>funActivityAdapter = new ArrayAdapter<funActivity>(this, R.layout.custom_listview_item, funActivitiesArray);
 
         ListView lvFunActivities = (ListView)findViewById(R.id.lvFunActivities);
-        lvFunActivities.setAdapter(funActivityAdapter);
+        lvFunActivities.setAdapter(funActivitiesArrayAdapter);
     }
 
     public class funActivitiesArrayAdapter extends ArrayAdapter<funActivity>
