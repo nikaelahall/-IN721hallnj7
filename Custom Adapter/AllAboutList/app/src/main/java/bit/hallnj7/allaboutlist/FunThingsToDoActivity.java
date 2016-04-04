@@ -68,13 +68,19 @@ public class FunThingsToDoActivity extends AppCompatActivity
         Drawable octagonImage = resourceMachine.getDrawable(R.drawable.octagon, null);
         Drawable olvestonImage = resourceMachine.getDrawable(R.drawable.olveston, null);
         Drawable peninsulaImage = resourceMachine.getDrawable(R.drawable.peninsula, null);
+        Drawable saltWaterImage = resourceMachine.getDrawable(R.drawable.salt_water_pool, null);
+        Drawable stKildaImage = resourceMachine.getDrawable(R.drawable.st_kilda_beach, null);
+        Drawable taieriRailwayImage = resourceMachine.getDrawable(R.drawable.taeri_gorge_railway, null);
 
-        funActivitiesArray = new funActivity[6];
+        funActivitiesArray = new funActivity[9];
         funActivitiesArray[0] = new funActivity("Larnach castle", larnachImage);
         funActivitiesArray[1] = new funActivity("Moana pool", moanaImage);
         funActivitiesArray[2] = new funActivity("Monarch cruise", monarchImage);
         funActivitiesArray[3] = new funActivity("Octagon", octagonImage);
         funActivitiesArray[4] = new funActivity("Olveston", olvestonImage);
-        funActivitiesArray[5] = new funActivity("Peninsula", peninsulaImage); //need to add the ic_ to the start of the image name so it is small.
+        funActivitiesArray[5] = new funActivity("Peninsula", peninsulaImage);
+        funActivitiesArray[6] = new funActivity("SaltWater", saltWaterImage);
+        funActivitiesArray[7] = new funActivity("StKilda", stKildaImage);
+        funActivitiesArray[8] = new funActivity("Railway", taieriRailwayImage);
     }
 }
