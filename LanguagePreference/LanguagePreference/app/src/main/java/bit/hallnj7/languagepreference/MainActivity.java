@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
         prefsEditor = prefs.edit();
 
         String languagePreference = prefs.getString("language", null);
-        int colorPreference = prefs.getInt("colorWanted", 0);
+        String colorPreference = prefs.getString("colorWanted", null);
 
-        if ((languagePreference != null) && (colorPreference != 0))
+        if ((languagePreference != null) && (colorPreference != null))
         {
             String greetingInChosenLanguage = getGreeting(languagePreference);
             int greetingInChosenColor = getChosenColor(colorPreference);
@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
             tvGreeting.setTextColor(greetingInChosenColor);
         }
     }
+
+
+
 
     public class SetLanguageClickHandler implements View.OnClickListener {
         @Override
@@ -54,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
             RadioGroup ColRg = (RadioGroup)findViewById(R.id.rgColor);
             int checkedColorId = ColRg.getCheckedRadioButtonId();
             RadioButton checkedRadio = (RadioButton)findViewById(checkedColorId);
-            int checkedColor = checkedRadio.getId();
+            String checkedColor = checkedRadio.getText().toString();
 
             //store new chosen language in prefs
+            prefsEditor.putString("colorWanted", checkedColor);
             prefsEditor.putString("language", checkedLanguage);
-            prefsEditor.putInt("colorWanted", checkedColor);
             prefsEditor.commit();
 
             String languagePreference = prefs.getString("language", null);
-            int colorPreference = prefs.getInt("colorWanted", 0);
-            if ((languagePreference != null) && (colorPreference != 0))
+            String colorPreference = prefs.getString("colorWanted", null);
+            if ((languagePreference != null) && (colorPreference != null))
             {
                 String greetingInChosenLanguage = getGreeting(languagePreference);
                 int greetingInChosenColor = getChosenColor(colorPreference);
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
 
         private String getGreeting(String language)
         {
@@ -97,20 +103,23 @@ public class MainActivity extends AppCompatActivity {
             return greeting;
         }
 
-    private int getChosenColor(int colorWanted)
+
+
+
+    private int getChosenColor(String colorWanted)
    {
         int chosenColor = 0;
 
         switch (colorWanted)
         {
-            case 0: //
-                chosenColor = (getResources().getColor(R.color.Green, null));
+            case ("Green"): 
+                chosenColor = ContextCompat.getColor(this, R.color.Green);
                 break;
-            case 1:
-                chosenColor = (getResources().getColor(R.color.colorPrimary, null));
+            case ("Blue"):
+                chosenColor = ContextCompat.getColor(this, R.color.colorPrimary);
                break;
-           case 2:
-                chosenColor = (getResources().getColor(R.color.Red, null));
+           case ("Red"):
+               chosenColor = ContextCompat.getColor(this, R.color.Red);
                 break;
        }
 
