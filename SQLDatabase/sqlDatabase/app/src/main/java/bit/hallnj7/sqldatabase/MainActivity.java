@@ -4,14 +4,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
     SQLiteDatabase demoDb;
+    Spinner countrySpinner;
+    ArrayList<String> countryArrayList;
+    Button searchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +25,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         makeDatabase();
+        fillSpinnerCountryName();
+
+        searchButton = (Button)findViewById(R.id.btnSearch);
+        searchButton.setOnClickListener(new ButtonHandler());
 
         String selectQuery = "SELECT * FROM tblCity";
         Cursor recordSet = demoDb.rawQuery(selectQuery, null);
@@ -74,8 +84,71 @@ public class MainActivity extends AppCompatActivity
         demoDb.execSQL("INSERT INTO tblCity (cityName, countryName) VALUES('Dunedin', 'New Zealand')");
     }
 
-    public void search()
-    {
 
+
+
+
+    class ButtonHandler implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v)
+        {
+            String selectedCountry = countrySpinner.getSelectedItem().toString();
+
+            String searchCountry = "SELECT cityName from tblCity WHERE countryName LIKE "; //maybe +=
+            searchCountry += selectedCountry;
+            Cursor countrySearchedSet = demoDb.rawQuery(searchCountry, null);
+
+           int countrySearchedCount = countrySearchedSet.getCount();
+            String[] displaySearchedArray = new String[countrySearchedCount];
+
+            int searchedCountryIndex = countrySearchedSet.getColumnIndex("countryName");
+
+            countrySearchedSet.moveToFirst();
+
+            for (int c=0; c<countrySearchedCount; c++)
+            {
+                String countryName = countrySearchedSet.getString(searchedCountryIndex);
+                displaySearchedArray[c] = countryName;
+
+                countrySearchedSet.moveToNext();
+            }
+
+            ListView searchListView = (ListView)findViewById(R.id.listView);
+            ArrayAdapter<String> searchAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, displaySearchedArray);
+            searchListView.setAdapter(searchAdapter);
+        }
+    }
+
+
+
+
+
+    public void fillSpinnerCountryName()
+    {
+        countrySpinner = (Spinner)findViewById(R.id.spinner);
+        int layout = android.R.layout.simple_spinner_item;
+
+        String selectCountry = "SELECT countryName from tblCity";
+        Cursor countrySet = demoDb.rawQuery(selectCountry, null);
+
+        int countryCount = countrySet.getCount();
+        String[] displayCountryArray = new String[countryCount];
+
+        int countryNameIndex = countrySet.getColumnIndex("countryName");
+
+        countrySet.moveToFirst();
+
+        for (int i=0; i<countryCount; i++)
+        {
+            String countryName = countrySet.getString(countryNameIndex);
+            displayCountryArray[i] = countryName;
+
+            countrySet.moveToNext();
+        }
+
+        countryArrayList = new ArrayList<String>();
+        ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(this, layout, displayCountryArray);
+        countrySpinner.setAdapter(countryAdapter);
     }
 }
