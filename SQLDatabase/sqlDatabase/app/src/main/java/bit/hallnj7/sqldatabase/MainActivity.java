@@ -88,37 +88,45 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
     class ButtonHandler implements View.OnClickListener
     {
         @Override
         public void onClick(View v)
         {
-            String selectedCountry = countrySpinner.getSelectedItem().toString();
+            String selectedCountry = "'";
+            selectedCountry += countrySpinner.getSelectedItem().toString();
 
             String searchCountry = "SELECT cityName from tblCity WHERE countryName LIKE "; //maybe +=
+            selectedCountry += "'";
             searchCountry += selectedCountry;
-            Cursor countrySearchedSet = demoDb.rawQuery(searchCountry, null);
+            Cursor countryRecordSet = demoDb.rawQuery(searchCountry, null);
 
-           int countrySearchedCount = countrySearchedSet.getCount();
-            String[] displaySearchedArray = new String[countrySearchedCount];
+           int countryRecordCount = countryRecordSet.getCount();
+            String[] displaySearchedArray = new String[countryRecordCount];
 
-            int searchedCountryIndex = countrySearchedSet.getColumnIndex("countryName");
+            int searchedCountryIndex = countryRecordSet.getColumnIndex("countryName");
+            int searchedCityIndex = countryRecordSet.getColumnIndex("cityName");
 
-            countrySearchedSet.moveToFirst();
+            countryRecordSet.moveToFirst();
 
-            for (int c=0; c<countrySearchedCount; c++)
+            for (int c=1; c<countryRecordCount; c++)
             {
-                String countryName = countrySearchedSet.getString(searchedCountryIndex);
-                displaySearchedArray[c] = countryName;
+                String countryName = countryRecordSet.getString(searchedCountryIndex);
+                String cityName = countryRecordSet.getString(searchedCityIndex);
+                displaySearchedArray[c] = countryName + ", " + cityName;
 
-                countrySearchedSet.moveToNext();
+                countryRecordSet.moveToNext();
             }
 
             ListView searchListView = (ListView)findViewById(R.id.listView);
             ArrayAdapter<String> searchAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, displaySearchedArray);
             searchListView.setAdapter(searchAdapter);
+
+            countryRecordSet.close();
         }
     }
+
 
 
 
