@@ -1,0 +1,24 @@
+{ "data":
+  {
+    {
+      "cityName": "Amsterdam",
+      "countryName": "Netherlands",
+      "population": 779808
+    },
+    {
+      "cityName": "Berlin",
+      "countryName": "Germany",
+      "population": 3502105
+    },
+    {
+      "cityName": "Cairo",
+      "countryName": "Egypt",
+      "population": 10230350
+    },
+    {
+      "cityName": "Dunedin",
+      "countryName": "Egypt",
+      "population": 126714
+    }
+  }
+}

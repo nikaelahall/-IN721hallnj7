@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    public void makeDatabase()
+    public void makeDatabase() //this works
     {
         demoDb = openOrCreateDatabase("DemoDB", MODE_PRIVATE, null);
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    class ButtonHandler implements View.OnClickListener
+    class ButtonHandler implements View.OnClickListener //this does not work
     {
         @Override
         public void onClick(View v)
@@ -132,7 +132,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    public void fillSpinnerCountryName()
+
+    public void fillSpinnerCountryName() //this works
     {
         countrySpinner = (Spinner)findViewById(R.id.spinner);
         int layout = android.R.layout.simple_spinner_item;
