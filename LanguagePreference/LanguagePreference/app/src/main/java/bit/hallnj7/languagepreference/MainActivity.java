@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (colorWanted)
         {
-            case ("Green"): 
+            case ("Green"):
                 chosenColor = ContextCompat.getColor(this, R.color.Green);
                 break;
             case ("Blue"):

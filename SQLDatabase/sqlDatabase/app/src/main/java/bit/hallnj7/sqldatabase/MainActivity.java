@@ -25,11 +25,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         makeDatabase();
+        DatabaseListView();
         fillSpinnerCountryName();
 
         searchButton = (Button)findViewById(R.id.btnSearch);
         searchButton.setOnClickListener(new ButtonHandler());
+    }
 
+
+
+
+    public void DatabaseListView()
+    {
         String selectQuery = "SELECT * FROM tblCity";
         Cursor recordSet = demoDb.rawQuery(selectQuery, null);
 
@@ -65,11 +72,11 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    public void makeDatabase() //this works
+    public void makeDatabase()
     {
-        demoDb = openOrCreateDatabase("DemoDB", MODE_PRIVATE, null);
+        demoDb = openOrCreateDatabase("demoDB", MODE_PRIVATE, null);
 
-        String dropQuery = "DROP TABLE tblCity";
+        String dropQuery = "DROP TABLE IF EXISTS tblCity";
         demoDb.execSQL(dropQuery);
 
         String createQuery = "CREATE TABLE IF NOT EXISTS tblCity(" +
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity
         demoDb.execSQL("INSERT INTO tblCity (cityName, countryName) VALUES('Berlin', 'Germany')");
         demoDb.execSQL("INSERT INTO tblCity (cityName, countryName) VALUES('Cairo', 'Egypt')");
         demoDb.execSQL("INSERT INTO tblCity (cityName, countryName) VALUES('Dunedin', 'New Zealand')");
+        demoDb.execSQL("INSERT INTO tblCity (cityName, countryName) VALUES('Auckland', 'New Zealand')");
     }
 
 
@@ -89,32 +97,28 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    class ButtonHandler implements View.OnClickListener //this does not work
+    public class ButtonHandler implements View.OnClickListener
     {
         @Override
         public void onClick(View v)
         {
-            String selectedCountry = "'";
-            selectedCountry += countrySpinner.getSelectedItem().toString();
+            String selectedCountry = countrySpinner.getSelectedItem().toString();
 
             String searchCountry = "SELECT cityName from tblCity WHERE countryName LIKE "; //maybe +=
-            selectedCountry += "'";
-            searchCountry += selectedCountry;
+            searchCountry += "'" + selectedCountry + "'";
             Cursor countryRecordSet = demoDb.rawQuery(searchCountry, null);
 
            int countryRecordCount = countryRecordSet.getCount();
             String[] displaySearchedArray = new String[countryRecordCount];
 
-            int searchedCountryIndex = countryRecordSet.getColumnIndex("countryName");
             int searchedCityIndex = countryRecordSet.getColumnIndex("cityName");
 
             countryRecordSet.moveToFirst();
 
-            for (int c=1; c<countryRecordCount; c++)
+            for (int c=0; c<countryRecordCount; c++)
             {
-                String countryName = countryRecordSet.getString(searchedCountryIndex);
                 String cityName = countryRecordSet.getString(searchedCityIndex);
-                displaySearchedArray[c] = countryName + ", " + cityName;
+                displaySearchedArray[c] = cityName;
 
                 countryRecordSet.moveToNext();
             }
@@ -133,12 +137,12 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    public void fillSpinnerCountryName() //this works
+    public void fillSpinnerCountryName()
     {
         countrySpinner = (Spinner)findViewById(R.id.spinner);
         int layout = android.R.layout.simple_spinner_item;
 
-        String selectCountry = "SELECT countryName from tblCity";
+        String selectCountry = "SELECT DISTINCT countryName from tblCity";
         Cursor countrySet = demoDb.rawQuery(selectCountry, null);
 
         int countryCount = countrySet.getCount();

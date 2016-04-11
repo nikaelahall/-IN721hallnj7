@@ -1,6 +1,7 @@
 package bit.hallnj7.jsonfile;
 
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -21,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
         String assetFileName = "city_data.json";
 
-        //Get an asset manager and create an input stream from the JSON file
         AssetManager am = getAssets();
+
         InputStream inputStream = null;
         int fileSizeInBytes = 0;
         byte[] JSONBuffer = new byte[fileSizeInBytes];
@@ -39,14 +40,12 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //Create a string from the byte[]
         String JSONInput = new String(JSONBuffer);
 
         JSONObject cityData = null;
         JSONArray dataArray = null;
         try
         {
-            //Convert file string to JSONObject
             cityData = new JSONObject(JSONInput);
             dataArray = cityData.getJSONArray("data");
         }
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //Debugging
         Toast.makeText(MainActivity.this, dataArray.toString(), Toast.LENGTH_LONG).show();
 
     }

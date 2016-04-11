@@ -1,0 +1,14 @@
+<data>
+	<city>
+		<cityName>Amsterdam</cityName>
+		<countryName>Netherlands</countryName>
+	</city>
+	<city>
+		<cityName>Berlin</cityName>
+		<countryName>Berline</countryName>
+	</city>
+	<city>
+		<cityName>Cairo</cityName>
+		<countryName>Egypt</countryName>
+	</city>
+</data>
