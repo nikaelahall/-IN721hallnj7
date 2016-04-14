@@ -9,22 +9,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="bit.hallnj7.webservices.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView"
-        android:layout_below="@+id/btnRaw"
-        android:layout_toRightOf="@+id/btnRaw"
-        android:layout_toEndOf="@+id/btnRaw" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Press button"
         android:id="@+id/btnRaw"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/btnRaw"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>
