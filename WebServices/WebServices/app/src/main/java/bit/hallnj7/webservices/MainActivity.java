@@ -50,11 +50,7 @@ public class MainActivity extends AppCompatActivity {
             String JSONString = null;
             try
             {
-                String urlString = "http://ws.audioscrobbler.com/2.0/;" +
-                        "?method=artist.getTopTracks&artist=;" +
-                        "Sia;" +
-                        "&api_key=58384a2141a4b9737eacb9d0989b8a8c&limit=10;" +
-                        "&format=json";
+                String urlString = "http://ws.audioscrobbler.com/2.0/?method=artist.getTopTracks&artist=Sia&api_key=58384a2141a4b9737eacb9d0989b8a8c&limit=10&format=json";
 
 
                 //Convert URL string to URLObject
