@@ -16,6 +16,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -32,11 +33,10 @@ import bit.hallnj7.bitmap.R;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> similarArtistNames;
-    URL URLObject;
-    HttpURLConnection connection;
     String urlString;
     ImageView image;
-    Bitmap myBitmap;
+    Bitmap artistBMP;
+    String JSONString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,30 +103,38 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 JSONString = stringBuilder.toString();
+
+                AsyncShowImage(doInBackground(Void... params));
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             return JSONString;
+        }
 
-            try {
 
-                urlString = JSONString;
-                URL url = new URL(urlString);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
+        public class AsyncShowImage extends AsyncTask<Void, Void, Bitmap>
+        {
+            @Override
+            protected Bitmap doInBackground(Void... params)
+            {
+                try {
 
-            } catch (IOException e) {
-                // Log exception
-                return null;
+                    urlString = JSONString;
+                    URL url = new URL(urlString);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    // connection.setDoInput(true);
+                    connection.connect();
+                    InputStream imageInputStream = connection.getInputStream();
+                    Bitmap artistBMP = BitmapFactory.decodeStream(imageInputStream);
+
+                } catch (IOException e) {
+                    // Log exception
+                    return null;
+                }
+
+                return artistBMP;
             }
-
-
-            return JSONString;
         }
 
 
@@ -137,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, similarArtistNames);
             artistList.setAdapter(arrayAdapter);
             ImageView image = (ImageView)findViewById(R.id.imageView);
-            image.setImageResource(myBitmap);
+            image.setImageBitmap(artistBMP);
         }
     }
 }
