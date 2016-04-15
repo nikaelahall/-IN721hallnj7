@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView image;
     Bitmap artistBMP;
     String JSONString;
+    String artistImage;
+    Bitmap displayImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         similarArtistNames = new ArrayList<>();
+        artistImage = "";
 
         Button btnShowRaw = (Button) findViewById(R.id.button);
         btnShowRaw.setOnClickListener(new ButtonClickHandler());
@@ -57,23 +60,25 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v)
         {
-                AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
-                APIThread.execute();
+            AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
+            APIThread.execute();
+            //AsyncShowImage APIImage = new AsyncShowImage();
+            //APIImage.execute();
         }
     }
 
     public void createList(String fetchedString)
     {
+        String imgURL;
+
         try {
             JSONObject artistData = new JSONObject(fetchedString);
             JSONObject artists = artistData.getJSONObject("artists");
             JSONArray artistArray = artists.getJSONArray("artist");
 
-            for (int i = 0; i < 1; i++) {
-                JSONObject artist = artistArray.getJSONObject(i);
-                String image = artist.getString("image");
-                similarArtistNames.add(image);
-            }
+            JSONObject artist = artistArray.getJSONObject(0);
+            String image = artist.getString("image");
+            similarArtistNames.add(image);
         }
         catch (JSONException e)
         {
@@ -81,13 +86,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String> {
+    public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String> { 
         @Override
         protected String doInBackground(Void... params) {
             String JSONString = null;
 
             try {
-                urlString = "http://ws.audioscrobbler.com/2.0/?method=chart.getTopArtists&api_key=58384a2141a4b9737eacb9d0989b8a8c&limit=10&format=json";
+                urlString = "http://ws.audioscrobbler.com/2.0/?method=chart.getTopArtists&api_key=58384a2141a4b9737eacb9d0989b8a8c&limit=1&format=json";
 
                 URL URLObject = new URL(urlString);
                 HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
@@ -104,48 +109,65 @@ public class MainActivity extends AppCompatActivity {
 
                 JSONString = stringBuilder.toString();
 
-                AsyncShowImage(doInBackground(Void... params));
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             return JSONString;
         }
+    }
 
 
-        public class AsyncShowImage extends AsyncTask<Void, Void, Bitmap>
+    public class AsyncShowImage extends AsyncTask<Void, Void, Bitmap>
+    {
+        @Override
+        protected Bitmap doInBackground(Void... params)
         {
-            @Override
-            protected Bitmap doInBackground(Void... params)
-            {
-                try {
+            Bitmap image = null;
 
-                    urlString = JSONString;
-                    URL url = new URL(urlString);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    // connection.setDoInput(true);
-                    connection.connect();
-                    InputStream imageInputStream = connection.getInputStream();
-                    Bitmap artistBMP = BitmapFactory.decodeStream(imageInputStream);
+            try {
 
-                } catch (IOException e) {
-                    // Log exception
-                    return null;
-                }
+                URL url = new URL(urlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream imageInputStream = connection.getInputStream();
+                Bitmap artistBMP = BitmapFactory.decodeStream(imageInputStream);
 
-                return artistBMP;
+            } catch (IOException e) {
+                // Log exception
+                return null;
             }
+
+            return artistBMP;
         }
+    }
 
 
-        protected void onPostExecute(String fetchedString) {
-            createList(fetchedString);
+    protected void onPostExecute(String fetchedString) {
+        displayImage = artistBMP;
+        showImage();
+    }
 
-            ListView artistList = (ListView) findViewById(R.id.listView);
-            ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, similarArtistNames);
-            artistList.setAdapter(arrayAdapter);
-            ImageView image = (ImageView)findViewById(R.id.imageView);
-            image.setImageBitmap(artistBMP);
+    public void showImage() {
+        ImageView image = (ImageView) findViewById(R.id.imageView);
+        image.setImageBitmap(artistBMP);
+    }
+
+    public void GetArtistImage(String fetchedString)
+    {
+        try {
+            JSONObject topArtists = new JSONObject(fetchedString);
+            JSONObject artists =  topArtists.getJSONObject("artists");
+            JSONArray artistArray = artists.getJSONArray("artist");
+            JSONObject currentArtist = artistArray.getJSONObject(0); //FirstArtist
+            JSONArray imageArray = currentArtist.getJSONArray("image");
+            JSONObject image = imageArray.getJSONObject(2); //LargeImage
+
+            artistImage = image.getString("#text");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }
