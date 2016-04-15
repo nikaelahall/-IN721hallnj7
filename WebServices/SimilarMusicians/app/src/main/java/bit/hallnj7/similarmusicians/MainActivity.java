@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             String JSONString = null;
             String api = "&api_key=58384a2141a4b9737eacb9d0989b8a8c&limit=10&format=json";
+
             try {
                 urlString = "http://ws.audioscrobbler.com/2.0/?";
                 urlString += "method=artist.getSimilar&artist=" + enteredName + api;
