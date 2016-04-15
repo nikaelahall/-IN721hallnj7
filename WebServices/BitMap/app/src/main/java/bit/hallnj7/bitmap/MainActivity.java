@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,7 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     URL URLObject;
     HttpURLConnection connection;
     String urlString;
+    ImageView image;
+    Bitmap myBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnShowRaw = (Button) findViewById(R.id.button);
         btnShowRaw.setOnClickListener(new ButtonClickHandler());
+
+        image = (ImageView)findViewById(R.id.imageView);
     }
 
 
@@ -99,6 +106,26 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            return JSONString;
+
+            try {
+
+                urlString = JSONString;
+                URL url = new URL(urlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+
+            } catch (IOException e) {
+                // Log exception
+                return null;
+            }
+
+
             return JSONString;
         }
 
@@ -109,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
             ListView artistList = (ListView) findViewById(R.id.listView);
             ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, similarArtistNames);
             artistList.setAdapter(arrayAdapter);
+            ImageView image = (ImageView)findViewById(R.id.imageView);
+            image.setImageResource(myBitmap);
         }
     }
 }
