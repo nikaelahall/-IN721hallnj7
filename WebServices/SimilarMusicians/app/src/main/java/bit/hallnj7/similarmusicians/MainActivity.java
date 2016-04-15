@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
         Button btnShowRaw = (Button) findViewById(R.id.button);
         btnShowRaw.setOnClickListener(new ButtonClickHandler());
 
-        ETenteredName = (EditText)findViewById(R.id.editText);
-        enteredName = ETenteredName.getText().toString();
+        searchNames();
+        //ETenteredName = (EditText)findViewById(R.id.editText);
+        //enteredName = ETenteredName.getText().toString();
     }
 
 
@@ -57,10 +58,18 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
+                similarArtistNames.clear();
                 AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
                 APIThread.execute();
+                searchNames();
             }
         }
+    }
+
+    public String searchNames()
+    {
+        ETenteredName = (EditText)findViewById(R.id.editText);
+        return ETenteredName.getText().toString();
     }
 
     public void createList(String fetchedString)
@@ -86,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             String JSONString = null;
+
+            searchNames();
+
             String api = "&api_key=58384a2141a4b9737eacb9d0989b8a8c&limit=10&format=json";
 
             try {
