@@ -76,24 +76,22 @@ public class MainActivity extends AppCompatActivity
         {
             String JSONString = null;
 
-            String api = "&api_key=58384a2141a4b9737eacb9d0989b8a8c&limit=10&format=json";
-
-            try
-            {
-                String urlString = "http://www.geoplugin.net/extras/location.gp?lat=";
-                urlString += randomLatitude + "&long=" + randomLongitude + "&format=json" + api;
+            try {
+                //String urlString = "http://www.geoplugin.net/extras/location.gp?lat="
+                      //  + randomLatitude + "&long=" + randomLongitude + "&format=json";
+                String urlString = "http://www.geoplugin.net/extras/location.gp?lat=-45&long=170&format=json";
 
                 URL URLObject = new URL(urlString);
                 HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
                 connection.connect();
                 int responseCode = connection.getResponseCode();
+
                 InputStream inputStream = connection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String responseString;
                 StringBuilder stringBuilder = new StringBuilder();
-                while ((responseString = bufferedReader.readLine()) != null)
-                {
+                while ((responseString = bufferedReader.readLine()) != null) {
                     stringBuilder = stringBuilder.append(responseString);
                 }
 
