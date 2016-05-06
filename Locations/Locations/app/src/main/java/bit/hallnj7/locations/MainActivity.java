@@ -22,9 +22,9 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     TextView tvLatitude;
     TextView tvLongitude;
-    int randomLongitude;
-    int randomLatitude;
     TextView tvPlace;
+    double randomLatitude;
+    double randomLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +47,56 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void calculateRandomLocation() {
-        int LongMax = 90;
-        int LongMin = -90;
-        int LatMax = 180;
-        int LatMin = -180;
+    public void calculateRandomLocation()
+    {
         Random rand = new Random();
 
-        int LongRange = LongMax - LongMin + 1;
-        randomLatitude = rand.nextInt(LongRange) + LongMin;
+        randomLatitude = rand.nextDouble() * 90;
+        randomLongitude = rand.nextDouble() * 180;
 
-        int LatRange = LatMax - LatMin + 1;
-        randomLongitude = rand.nextInt(LatRange) + LatMin;
+        int chooseSignLatitude = rand.nextInt(2);
+        int chooseSignLongitude = rand.nextInt(2);
+
+        if (chooseSignLatitude == 1)
+        {
+            randomLatitude *= -1;
+        }
+
+        else if (chooseSignLongitude == 1)
+        {
+            randomLongitude *= -1;
+        }
 
         tvLatitude.setText(String.valueOf(randomLatitude));
         tvLongitude.setText(String.valueOf(randomLongitude));
+    }
+
+
+
+    public void createPlace(String fetchedString)
+    {
+        try
+        {
+            TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
+            JSONObject placeData = new JSONObject(fetchedString);
+            String geopluginCity = placeData.optString("geoplugin_place");
+            String geopluginCountry = placeData.optString("geoplugin_countryCode");
+
+            if (geopluginCity != null && geopluginCountry != null)
+            {
+                tvPlace.setText(geopluginCity + geopluginCountry);
+            }
+
+            else
+            {
+               tvPlace.setText("There is no city here");
+            }
+        }
+
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -71,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
             String JSONString = null;
 
             try {
-                //String urlString = "http://www.geoplugin.net/extras/location.gp?lat="
-                //  + randomLatitude + "&long=" + randomLongitude + "&format=json";
-                String urlString = "http://www.geoplugin.net/extras/location.gp?lat=-45&long=170&format=json";
+                String urlString = "http://www.geoplugin.net/extras/location.gp?lat="
+                  + randomLatitude + "&long=" + randomLongitude + "&format=json";
+                //String urlString = "http://www.geoplugin.net/extras/location.gp?lat=-45&long=170&format=json";
 
                 URL URLObject = new URL(urlString);
                 HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
@@ -101,9 +136,10 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String fetchedString)
         {
-            Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
-            TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
-            tvPlace.setText(fetchedString);
+            createPlace(fetchedString);
+
+            //TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
+            //tvPlace.setText(fetchedString);
         }
     }
 }
