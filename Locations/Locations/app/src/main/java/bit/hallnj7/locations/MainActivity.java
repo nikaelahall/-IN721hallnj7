@@ -19,8 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     TextView tvLatitude;
     TextView tvLongitude;
     int randomLongitude;
@@ -28,33 +27,31 @@ public class MainActivity extends AppCompatActivity
     TextView tvPlace;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnTeleport = (Button)findViewById(R.id.btnTeleport);
+        Button btnTeleport = (Button) findViewById(R.id.btnTeleport);
         btnTeleport.setOnClickListener(new ButtonClickHandler());
 
-        tvLongitude = (TextView)findViewById(R.id.tvLongitude);
-        tvLatitude = (TextView)findViewById(R.id.tvLatitude);
+        tvLongitude = (TextView) findViewById(R.id.tvLongitude);
+        tvLatitude = (TextView) findViewById(R.id.tvLatitude);
     }
 
-    public class ButtonClickHandler implements View.OnClickListener
-    {
+    public class ButtonClickHandler implements View.OnClickListener {
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             calculateRandomLocation();
             AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
             APIThread.execute();
         }
     }
 
-    public void calculateRandomLocation()
-    {
-        int LongMax = 90;           int LongMin = -90;
-        int LatMax = 180;          int LatMin = -180;
+    public void calculateRandomLocation() {
+        int LongMax = 90;
+        int LongMin = -90;
+        int LatMax = 180;
+        int LatMin = -180;
         Random rand = new Random();
 
         int LongRange = LongMax - LongMin + 1;
@@ -68,17 +65,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-    public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String>
-    {
+    public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String> {
         @Override
-        protected String doInBackground(Void... params)
-        {
+        protected String doInBackground(Void... params) {
             String JSONString = null;
 
             try {
                 //String urlString = "http://www.geoplugin.net/extras/location.gp?lat="
-                      //  + randomLatitude + "&long=" + randomLongitude + "&format=json";
+                //  + randomLatitude + "&long=" + randomLongitude + "&format=json";
                 String urlString = "http://www.geoplugin.net/extras/location.gp?lat=-45&long=170&format=json";
 
                 URL URLObject = new URL(urlString);
@@ -98,17 +92,18 @@ public class MainActivity extends AppCompatActivity
                 JSONString = stringBuilder.toString();
             }
 
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
             return JSONString;
         }
-    }
 
-    protected void onPostExecute(String fetchedString)
-    {
-        Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
-        TextView tvPlace = (TextView)findViewById(R.id.tvJsonInput);
-        tvPlace.setText(fetchedString);
+        protected void onPostExecute(String fetchedString)
+        {
+            Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
+            TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
+            tvPlace.setText(fetchedString);
+        }
     }
 }
