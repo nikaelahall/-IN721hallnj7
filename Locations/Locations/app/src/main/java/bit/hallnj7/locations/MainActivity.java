@@ -25,9 +25,12 @@ public class MainActivity extends AppCompatActivity {
     TextView tvPlace;
     double randomLatitude;
     double randomLongitude;
+    String geopluginCity;
+    String geopluginCountry;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -38,16 +41,22 @@ public class MainActivity extends AppCompatActivity {
         tvLatitude = (TextView) findViewById(R.id.tvLatitude);
     }
 
-    public class ButtonClickHandler implements View.OnClickListener {
+
+
+    public class ButtonClickHandler implements View.OnClickListener
+    {
         @Override
-        public void onClick(View v) {
+        public void onClick(View v)
+        {
             calculateRandomLocation();
             AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
             APIThread.execute();
         }
     }
 
-    public void calculateRandomLocation()
+
+
+    public void calculateRandomLocation() //generates the random coordinate, gives an even range of odd and even numbers 
     {
         Random rand = new Random();
 
@@ -73,42 +82,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void createPlace(String fetchedString)
-    {
-        try
-        {
-            TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
-            JSONObject placeData = new JSONObject(fetchedString);
-            String geopluginCity = placeData.optString("geoplugin_place");
-            String geopluginCountry = placeData.optString("geoplugin_countryCode");
-
-            if (geopluginCity != null && geopluginCountry != null)
-            {
-                tvPlace.setText(geopluginCity + geopluginCountry);
-            }
-
-            else
-            {
-               tvPlace.setText("There is no city here");
-            }
-        }
-
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
 
     public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String> {
         @Override
-        protected String doInBackground(Void... params) {
+        protected String doInBackground(Void... params)
+        {
             String JSONString = null;
 
             try {
                 String urlString = "http://www.geoplugin.net/extras/location.gp?lat="
                   + randomLatitude + "&long=" + randomLongitude + "&format=json";
-                //String urlString = "http://www.geoplugin.net/extras/location.gp?lat=-45&long=170&format=json";
 
                 URL URLObject = new URL(urlString);
                 HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
@@ -134,12 +117,34 @@ public class MainActivity extends AppCompatActivity {
             return JSONString;
         }
 
+
         protected void onPostExecute(String fetchedString)
         {
-            createPlace(fetchedString);
+            try
+            {
+                TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
+                JSONObject placeData = new JSONObject(fetchedString);
+                geopluginCity = placeData.optString("geoplugin_place");
+                geopluginCountry = placeData.optString("geoplugin_countryCode");
 
-            //TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
-            //tvPlace.setText(fetchedString);
+                if (geopluginCity != null && geopluginCountry != null)
+                {
+                    tvPlace.setText("Closest city: " + geopluginCity + ", " + geopluginCountry);
+                }
+
+                else if (geopluginCity == null && geopluginCountry == null)
+                {
+                    //calculateRandomLocation();
+                    Toast.makeText(MainActivity.this, "hi", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+
+                //calculateRandomLocation();
+            }
         }
     }
 }
