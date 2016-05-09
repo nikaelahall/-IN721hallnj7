@@ -1,5 +1,6 @@
 package bit.hallnj7.locations;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     double randomLongitude;
     String geopluginCity;
     String geopluginCountry;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,14 +51,15 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v)
         {
             calculateRandomLocation();
-            AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
-            APIThread.execute();
+            //AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
+            //APIThread.execute();
+           progress = new ProgressDialog(MainActivity.this);
         }
     }
 
 
 
-    public void calculateRandomLocation() //generates the random coordinate, gives an even range of odd and even numbers 
+    public void calculateRandomLocation() //generates the random coordinate, gives an even range of odd and even numbers
     {
         Random rand = new Random();
 
@@ -78,12 +81,31 @@ public class MainActivity extends AppCompatActivity {
 
         tvLatitude.setText(String.valueOf(randomLatitude));
         tvLongitude.setText(String.valueOf(randomLongitude));
+
+        AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
+        APIThread.execute();
     }
 
 
+    public void DisplayNoCity()
+    {
+        TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
+        tvPlace.setText("You have landed in the ocean!");
+    }
 
 
-    public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String> {
+    public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String>
+    {
+        //ProgressDialog progress = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute()
+        {
+            progress.setMessage("Progress...");
+            progress.show();
+            super.onPreExecute();
+        }
+
         @Override
         protected String doInBackground(Void... params)
         {
@@ -120,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String fetchedString)
         {
+            //check for square bracket silly things here, then set text.
+
             try
             {
                 TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
@@ -129,21 +153,16 @@ public class MainActivity extends AppCompatActivity {
 
                 if (geopluginCity != null && geopluginCountry != null)
                 {
+                    progress.dismiss();
                     tvPlace.setText("Closest city: " + geopluginCity + ", " + geopluginCountry);
-                }
-
-                else if (geopluginCity == null && geopluginCountry == null)
-                {
-                    //calculateRandomLocation();
-                    Toast.makeText(MainActivity.this, "hi", Toast.LENGTH_SHORT).show();
                 }
             }
 
             catch (JSONException e)
             {
                 e.printStackTrace();
-
-                //calculateRandomLocation();
+                //DisplayNoCity();  //Displays "No city here" when no city is close to these co-ordinates
+                calculateRandomLocation(); //calculates the random co-ordinates
             }
         }
     }
