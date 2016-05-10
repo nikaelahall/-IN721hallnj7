@@ -53,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
             calculateRandomLocation();
             //AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
             //APIThread.execute();
-           progress = new ProgressDialog(MainActivity.this);
+
+            progress = new ProgressDialog(MainActivity.this);
+            progress.setMessage("Progress...");
+            progress.show();
         }
     }
 
@@ -96,13 +99,9 @@ public class MainActivity extends AppCompatActivity {
 
     public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String>
     {
-        //ProgressDialog progress = new ProgressDialog(MainActivity.this);
-
         @Override
         protected void onPreExecute()
         {
-            progress.setMessage("Progress...");
-            progress.show();
             super.onPreExecute();
         }
 
