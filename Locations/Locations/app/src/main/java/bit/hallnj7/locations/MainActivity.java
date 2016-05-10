@@ -1,6 +1,7 @@
 package bit.hallnj7.locations;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -165,4 +167,56 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
+
+    public void GetCityImage (String fetchedString)
+    {
+        try
+        {
+            JSONObject foundCity = new JSONObject(fetchedString);
+            JSONObject cities = foundCity.getJSONObject("photos");
+            JSONArray cityArray = cities.getJSONArray("photo");
+            JSONObject currentCity = cityArray.getJSONObject(0); //first image
+            JSONArray imageArray = currentCity.getJSONArray("id");
+            JSONObject image = imageArray.getJSONObject(2);
+
+            String cityImage = image.getString("#text");
+        }
+
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    public class AsyncCityImage extends AsyncTask<String, Void, Bitmap>
+    {
+        @Override
+        protected Bitmap doInBackground(String... params)
+        {
+            Bitmap image = null;
+
+            String url = params[0];
+
+            try
+            {
+                URL urlObject = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
+                connection.connect();
+            }
+
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
+            return image;
+        }
+    }
+
+
 }
