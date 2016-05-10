@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     String geopluginCountry;
     ProgressDialog progress;
     private Bitmap displayImage;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (total == 0)
                 {
+                    imageView.setImageResource(android.R.color.transparent);
                     Toast.makeText(MainActivity.this, "No image found", Toast.LENGTH_SHORT).show();
                 }
 
@@ -275,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void ShowImage()
     {
-        ImageView imageView = (ImageView)findViewById(R.id.imageView);
+        imageView = (ImageView)findViewById(R.id.imageView);
         imageView.setImageBitmap(displayImage);
     }
 }
