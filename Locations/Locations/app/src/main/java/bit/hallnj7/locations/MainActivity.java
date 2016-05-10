@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             calculateRandomLocation();
-            //AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
-            //APIThread.execute();
 
             progress = new ProgressDialog(MainActivity.this);
             progress.setMessage("Progress...");
@@ -155,18 +153,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class AsyncImage extends AsyncTask<String, Void, String> {
+    public class AsyncImage extends AsyncTask<String, Void, String>
+    {
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(String... params)
+        {
             String jsonString = null;
-            String cityName = params[0];
+            String geopluginCity = params[0];
 
             String urlCity = "https://api.flickr.com/services/rest/?" +
                     "method=flickr.photos.search&" +
                     "api_key=eda41a123d459be0f85276d37290651e&" +
                     "text=" +
-                    cityName +
+                    geopluginCity +
                     "&format=json&nojsoncallback=1";
+
+            Log.e("Url", urlCity);
 
             try {
                 URL URLObject = new URL(urlCity);
@@ -195,7 +197,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String s)
+        {
+            Log.e("String", s);
             try {
                 JSONObject foundCity = new JSONObject(s);
                 JSONObject cities = foundCity.getJSONObject("photos");
@@ -244,7 +248,6 @@ public class MainActivity extends AppCompatActivity {
                 InputStream is = connection.getInputStream();
 
                 image = BitmapFactory.decodeStream(is);
-                return null;
             }
 
             catch (IOException e)
