@@ -201,24 +201,34 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject foundCity = new JSONObject(s);
                 JSONObject cities = foundCity.getJSONObject("photos");
-                JSONArray cityArray = cities.getJSONArray("photo");
-                JSONObject image = cityArray.getJSONObject(0); //first image
-                String farmId = image.getString("farm");
-                String serverId = image.getString("server");
-                String photoId = image.getString("id");
-                String secret = image.getString("secret");
-                String size = "n";
+                int total = cities.getInt("total");
 
-                String imageURL = "https://farm" +
-                        farmId +
-                        ".staticflickr.com/" +
-                        serverId + "/" +
-                        photoId + "_" +
-                        secret + "_" +
-                        size + ".jpg";
+                if (total == 0)
+                {
+                    Toast.makeText(MainActivity.this, "No image found", Toast.LENGTH_SHORT).show();
+                }
 
-                AsyncImageForCity asyncImageForCity = new AsyncImageForCity();
-                asyncImageForCity.execute(imageURL);
+                else {
+                    JSONArray cityArray = cities.getJSONArray("photo");
+                    JSONObject image = cityArray.getJSONObject(0); //first image
+                    String farmId = image.getString("farm");
+                    String serverId = image.getString("server");
+                    String photoId = image.getString("id");
+                    String secret = image.getString("secret");
+                    String size = "n";
+
+
+                    String imageURL = "https://farm" +
+                            farmId +
+                            ".staticflickr.com/" +
+                            serverId + "/" +
+                            photoId + "_" +
+                            secret + "_" +
+                            size + ".jpg";
+
+                    AsyncImageForCity asyncImageForCity = new AsyncImageForCity();
+                    asyncImageForCity.execute(imageURL);
+                }
             }
 
             catch (JSONException e)
