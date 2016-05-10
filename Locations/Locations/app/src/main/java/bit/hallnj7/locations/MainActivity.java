@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 if (geopluginCity != null && geopluginCountry != null) {
                     progress.dismiss();
                     AsyncImage asyncCityImage = new AsyncImage();
+                    asyncCityImage.execute(geopluginCity);
                     tvPlace.setText("Closest city: " + geopluginCity + ", " + geopluginCountry);
                 }
             }
@@ -167,8 +168,6 @@ public class MainActivity extends AppCompatActivity {
                     "text=" +
                     geopluginCity +
                     "&format=json&nojsoncallback=1";
-
-            Log.e("Url", urlCity);
 
             try {
                 URL URLObject = new URL(urlCity);
@@ -199,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s)
         {
-            Log.e("String", s);
             try {
                 JSONObject foundCity = new JSONObject(s);
                 JSONObject cities = foundCity.getJSONObject("photos");
