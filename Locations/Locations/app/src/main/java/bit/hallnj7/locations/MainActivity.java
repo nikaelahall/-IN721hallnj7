@@ -2,11 +2,14 @@ package bit.hallnj7.locations;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
     String geopluginCity;
     String geopluginCountry;
     ProgressDialog progress;
+    private Bitmap displayImage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -46,12 +49,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public class ButtonClickHandler implements View.OnClickListener
-    {
+    public class ButtonClickHandler implements View.OnClickListener {
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             calculateRandomLocation();
             //AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
             //APIThread.execute();
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             progress.show();
         }
     }
-
 
 
     public void calculateRandomLocation() //generates the random coordinate, gives an even range of odd and even numbers
@@ -74,13 +73,9 @@ public class MainActivity extends AppCompatActivity {
         int chooseSignLatitude = rand.nextInt(2);
         int chooseSignLongitude = rand.nextInt(2);
 
-        if (chooseSignLatitude == 1)
-        {
+        if (chooseSignLatitude == 1) {
             randomLatitude *= -1;
-        }
-
-        else if (chooseSignLongitude == 1)
-        {
+        } else if (chooseSignLongitude == 1) {
             randomLongitude *= -1;
         }
 
@@ -92,29 +87,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void DisplayNoCity()
-    {
+    public void DisplayNoCity() {
         TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
         tvPlace.setText("You have landed in the ocean!");
     }
 
 
-    public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String>
-    {
+    public class AsyncAPIShowRawJSON extends AsyncTask<Void, Void, String> {
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected String doInBackground(Void... params)
-        {
+        protected String doInBackground(Void... params) {
             String JSONString = null;
 
             try {
                 String urlString = "http://www.geoplugin.net/extras/location.gp?lat="
-                  + randomLatitude + "&long=" + randomLongitude + "&format=json";
+                        + randomLatitude + "&long=" + randomLongitude + "&format=json";
 
                 URL URLObject = new URL(urlString);
                 HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
@@ -131,10 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 JSONString = stringBuilder.toString();
-            }
-
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return JSONString;
@@ -143,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String fetchedString)
         {
-            //check for square bracket silly things here, then set text.
-
             try
             {
                 TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
@@ -152,9 +138,9 @@ public class MainActivity extends AppCompatActivity {
                 geopluginCity = placeData.optString("geoplugin_place");
                 geopluginCountry = placeData.optString("geoplugin_countryCode");
 
-                if (geopluginCity != null && geopluginCountry != null)
-                {
+                if (geopluginCity != null && geopluginCountry != null) {
                     progress.dismiss();
+                    AsyncImage asyncCityImage = new AsyncImage();
                     tvPlace.setText("Closest city: " + geopluginCity + ", " + geopluginCountry);
                 }
             }
@@ -169,37 +155,82 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public class AsyncImage extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String jsonString = null;
+            String cityName = params[0];
 
+            String urlCity = "https://api.flickr.com/services/rest/?" +
+                    "method=flickr.photos.search&" +
+                    "api_key=eda41a123d459be0f85276d37290651e&" +
+                    "text=" +
+                    cityName +
+                    "&format=json&nojsoncallback=1";
 
+            try {
+                URL URLObject = new URL(urlCity);
+                HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
+                connection.connect();
+                int responseCode = connection.getResponseCode();
 
-    public void GetCityImage (String fetchedString)
-    {
-        try
-        {
-            JSONObject foundCity = new JSONObject(fetchedString);
-            JSONObject cities = foundCity.getJSONObject("photos");
-            JSONArray cityArray = cities.getJSONArray("photo");
-            JSONObject currentCity = cityArray.getJSONObject(0); //first image
-            JSONArray imageArray = currentCity.getJSONArray("id");
-            JSONObject image = imageArray.getJSONObject(2);
+                InputStream inputStream = connection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String responseString;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((responseString = bufferedReader.readLine()) != null) {
+                    stringBuilder = stringBuilder.append(responseString);
+                }
 
-            String cityImage = image.getString("#text");
+                jsonString = stringBuilder.toString();
+            }
+
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
+            return jsonString;
         }
 
-        catch (JSONException e)
-        {
-            e.printStackTrace();
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                JSONObject foundCity = new JSONObject(s);
+                JSONObject cities = foundCity.getJSONObject("photos");
+                JSONArray cityArray = cities.getJSONArray("photo");
+                JSONObject image = cityArray.getJSONObject(0); //first image
+                String farmId = image.getString("farm");
+                String serverId = image.getString("server");
+                String photoId = image.getString("id");
+                String secret = image.getString("secret");
+                String size = "n";
+
+                String imageURL = "https://farm" +
+                        farmId +
+                        ".staticflickr.com/" +
+                        serverId + "/" +
+                        photoId + "_" +
+                        secret + "_" +
+                        size + ".jpg";
+
+                AsyncImageForCity asyncImageForCity = new AsyncImageForCity();
+                asyncImageForCity.execute(imageURL);
+            }
+
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
 
-    public class AsyncCityImage extends AsyncTask<String, Void, Bitmap>
-    {
+    public class AsyncImageForCity extends AsyncTask<String, Void, Bitmap> {
         @Override
-        protected Bitmap doInBackground(String... params)
-        {
+        protected Bitmap doInBackground(String... params) {
             Bitmap image = null;
-
             String url = params[0];
 
             try
@@ -207,6 +238,13 @@ public class MainActivity extends AppCompatActivity {
                 URL urlObject = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
                 connection.connect();
+
+                int responseCode = connection.getResponseCode();
+
+                InputStream is = connection.getInputStream();
+
+                image = BitmapFactory.decodeStream(is);
+                return null;
             }
 
             catch (IOException e)
@@ -216,7 +254,17 @@ public class MainActivity extends AppCompatActivity {
 
             return image;
         }
+
+        protected void onPostExecute(Bitmap image)
+        {
+            displayImage = image;
+            ShowImage();
+        }
     }
 
-
+    public void ShowImage()
+    {
+        ImageView imageView = (ImageView)findViewById(R.id.imageView);
+        imageView.setImageBitmap(displayImage);
+    }
 }
