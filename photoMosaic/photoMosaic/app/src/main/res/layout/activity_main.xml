@@ -9,17 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="bit.hallnj7.photomosaic.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/textView" />
-
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/imageView"
-        android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="55dp" />
@@ -48,4 +41,13 @@
         android:layout_alignTop="@+id/imageView2"
         android:layout_alignRight="@+id/imageView3"
         android:layout_alignEnd="@+id/imageView3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

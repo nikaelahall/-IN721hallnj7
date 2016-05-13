@@ -8,10 +8,14 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.SimpleTimeZone;
 
@@ -20,6 +24,7 @@ public class MainActivity extends AppCompatActivity
     String mPhotoFileName;
     File mPhotoFile;
     Uri mPhotoFileUri;
+    ArrayList<ImageView> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,23 +32,39 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //creates time stamped file to hold the image data
-        mPhotoFile = createTimeStampedFile();
+        images = new ArrayList<>();
 
-        //Generate Uri from the File instance
-        mPhotoFileUri = Uri.fromFile(mPhotoFile);
+        images.add((ImageView) findViewById(R.id.imageView));
+        images.add((ImageView) findViewById(R.id.imageView2));
+        images.add((ImageView) findViewById(R.id.imageView3));
+        images.add((ImageView) findViewById(R.id.imageView4));
 
-        //Create an intent for the image capture content provider
-        Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        //Attach your Uri to the intent
-        imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoFileUri);
-
-        //Launch the intent, waiting for result
-        //The user will see the camera app. When they finish, onActivityResult is raised
-        startActivityForResult(imageCaptureIntent, 1);
+        Button button = (Button)findViewById(R.id.button);
+        button.setOnClickListener(new buttonClickHandler());
     }
 
+    public class buttonClickHandler implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v)
+        {
+            //creates time stamped file to hold the image data
+            mPhotoFile = createTimeStampedFile();
+
+            //Generate Uri from the File instance
+            mPhotoFileUri = Uri.fromFile(mPhotoFile);
+
+            //Create an intent for the image capture content provider
+            Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+            //Attach your Uri to the intent
+            imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoFileUri);
+
+            //Launch the intent, waiting for result
+            //The user will see the camera app. When they finish, onActivityResult is raised
+            startActivityForResult(imageCaptureIntent, 1);
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -60,6 +81,10 @@ public class MainActivity extends AppCompatActivity
                 Bitmap userPhotoBitmap = BitmapFactory.decodeFile(realFilepath);
                 
                 //Do whatever you want with the bitmap here...
+                for (ImageView i : images)
+                {
+                    i.setImageBitmap(userPhotoBitmap);
+                }
             }
             
             else
@@ -67,7 +92,6 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "No photo saved. Something went wrong", Toast.LENGTH_SHORT).show();
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
 
@@ -94,6 +118,7 @@ public class MainActivity extends AppCompatActivity
         //Make file object from directory and filename
         File photoFile = new File(imageStorageDirectory.getPath() + File.separator + mPhotoFileName);
 
+        //Return the created file object
         return photoFile;
     }
 }
