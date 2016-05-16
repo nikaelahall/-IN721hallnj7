@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 //        sensorManager.registerListener(new lightStuff(), lightSensor, sensorManager.SENSOR_DELAY_NORMAL);
 
 
-        //accelerometer sensor 
+        //accelerometer sensor
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(new movementSensor(), accelerometerSensor, sensorManager.SENSOR_DELAY_NORMAL);
     }
