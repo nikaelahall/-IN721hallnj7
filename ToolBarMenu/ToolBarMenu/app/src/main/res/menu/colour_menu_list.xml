@@ -4,21 +4,21 @@
 
     <item
         android:id="@+id/menu_item_red"
-        android:icon="@drawable/red"
+        android:icon="@drawable/redword"
         android:title="Red"
         app:showAsAction="ifRoom|withText">
     </item>
 
     <item
         android:id="@+id/menu_item_blue"
-        android:icon="@drawable/blue"
+        android:icon="@drawable/blueword"
         android:title="Blue"
         app:showAsAction="ifRoom|withText">
     </item>
 
     <item
         android:id="@+id/menu_item_green"
-        android:icon="@drawable/green"
+        android:icon="@drawable/greenword"
         android:title="Green"
         app:showAsAction="ifRoom|withText">
     </item>
