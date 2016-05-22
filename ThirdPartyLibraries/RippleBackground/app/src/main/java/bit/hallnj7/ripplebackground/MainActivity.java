@@ -21,7 +21,15 @@ public class MainActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rippleBackground.startRippleAnimation();
+
+                if(rippleBackground.isRippleAnimationRunning())
+                {
+                    rippleBackground.stopRippleAnimation();
+                }
+
+                else {
+                    rippleBackground.startRippleAnimation();
+                }
             }
         });
     }
