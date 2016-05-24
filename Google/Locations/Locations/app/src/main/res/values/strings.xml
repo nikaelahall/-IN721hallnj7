@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Locations</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyBL5w5MnIupFPKQBhcAyJVFla5ycccKhzg
+        AIzaSyDfsHvvjg4SEIXairdQjDQMT8ilHgmN8jw
     </string>
 </resources>
