@@ -13,8 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
     String geopluginCity;
     String geopluginCountry;
     ProgressDialog progress;
-    private Bitmap displayImage;
-    ImageView imageView;
     GoogleMap mMap;
     LatLng DunedinLatLng;
 
@@ -63,6 +65,23 @@ public class MainActivity extends AppCompatActivity {
             progress = new ProgressDialog(MainActivity.this);
             progress.setMessage("Progress...");
             progress.show();
+
+
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(new MapCallBackClass());
+        }
+    }
+
+    public class MapCallBackClass implements OnMapReadyCallback
+    {
+        @Override
+        public void onMapReady(GoogleMap googleMap)
+        {
+            mMap = googleMap;
+
+            mMap.addMarker(new MarkerOptions().position(DunedinLatLng).title("Dunedin!!"));
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(DunedinLatLng));
         }
     }
 
@@ -83,17 +102,10 @@ public class MainActivity extends AppCompatActivity {
             randomLongitude *= -1;
         }
 
-        tvLatitude.setText(String.valueOf(randomLatitude));
-        tvLongitude.setText(String.valueOf(randomLongitude));
-
         AsyncAPIShowRawJSON APIThread = new AsyncAPIShowRawJSON();
         APIThread.execute();
-    }
 
-
-    public void DisplayNoCity() {
-        TextView tvPlace = (TextView) findViewById(R.id.tvJsonInput);
-        tvPlace.setText("You have landed in the ocean!");
+        DunedinLatLng = new LatLng(-45, 170);
     }
 
 
@@ -144,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if (geopluginCity != null && geopluginCountry != null) {
                     progress.dismiss();
-                    AsyncImage asyncCityImage = new AsyncImage();
-                    asyncCityImage.execute(geopluginCity);
                     tvPlace.setText("Closest city: " + geopluginCity + ", " + geopluginCountry);
                 }
             }
@@ -157,132 +167,5 @@ public class MainActivity extends AppCompatActivity {
                 calculateRandomLocation(); //calculates the random co-ordinates
             }
         }
-    }
-
-
-    public class AsyncImage extends AsyncTask<String, Void, String>
-    {
-        @Override
-        protected String doInBackground(String... params)
-        {
-            String jsonString = null;
-            String geopluginCity = params[0];
-
-            String urlCity = "https://api.flickr.com/services/rest/?" +
-                    "method=flickr.photos.search&" +
-                    "api_key=eda41a123d459be0f85276d37290651e&" +
-                    "text=" +
-                    geopluginCity +
-                    "&format=json&nojsoncallback=1";
-
-            try {
-                URL URLObject = new URL(urlCity);
-                HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
-                connection.connect();
-                int responseCode = connection.getResponseCode();
-
-                InputStream inputStream = connection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String responseString;
-                StringBuilder stringBuilder = new StringBuilder();
-                while ((responseString = bufferedReader.readLine()) != null) {
-                    stringBuilder = stringBuilder.append(responseString);
-                }
-
-                jsonString = stringBuilder.toString();
-            }
-
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
-            return jsonString;
-        }
-
-        @Override
-        protected void onPostExecute(String s)
-        {
-            try {
-                JSONObject foundCity = new JSONObject(s);
-                JSONObject cities = foundCity.getJSONObject("photos");
-                int total = cities.getInt("total");
-
-                if (total == 0)
-                {
-                    imageView.setImageResource(android.R.color.transparent);
-                    Toast.makeText(MainActivity.this, "No image found", Toast.LENGTH_SHORT).show();
-                }
-
-                else {
-                    JSONArray cityArray = cities.getJSONArray("photo");
-                    JSONObject image = cityArray.getJSONObject(0); //first image
-                    String farmId = image.getString("farm");
-                    String serverId = image.getString("server");
-                    String photoId = image.getString("id");
-                    String secret = image.getString("secret");
-                    String size = "n";
-
-
-                    String imageURL = "https://farm" +
-                            farmId +
-                            ".staticflickr.com/" +
-                            serverId + "/" +
-                            photoId + "_" +
-                            secret + "_" +
-                            size + ".jpg";
-
-                    AsyncImageForCity asyncImageForCity = new AsyncImageForCity();
-                    asyncImageForCity.execute(imageURL);
-                }
-            }
-
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    public class AsyncImageForCity extends AsyncTask<String, Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            Bitmap image = null;
-            String url = params[0];
-
-            try
-            {
-                URL urlObject = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
-                connection.connect();
-
-                int responseCode = connection.getResponseCode();
-
-                InputStream is = connection.getInputStream();
-
-                image = BitmapFactory.decodeStream(is);
-            }
-
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
-            return image;
-        }
-
-        protected void onPostExecute(Bitmap image)
-        {
-            displayImage = image;
-            ShowImage();
-        }
-    }
-
-    public void ShowImage()
-    {
-        imageView = (ImageView)findViewById(R.id.imageView);
-        imageView.setImageBitmap(displayImage);
     }
 }
