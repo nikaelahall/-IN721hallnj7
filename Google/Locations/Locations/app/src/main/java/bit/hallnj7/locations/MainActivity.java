@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     GoogleMap mMap;
     LatLng DunedinLatLng;
     LatLng location;
-    Marker markerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         {
             mMap = googleMap;
 
-            markerName = mMap.addMarker(new MarkerOptions().position(DunedinLatLng));
+            mMap.addMarker(new MarkerOptions().position(DunedinLatLng));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         }
