@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Random;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     GoogleMap mMap;
     LatLng DunedinLatLng;
     LatLng location;
+    Marker markerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         {
             mMap = googleMap;
 
-            mMap.addMarker(new MarkerOptions().position(DunedinLatLng));
+            markerName = mMap.addMarker(new MarkerOptions().position(DunedinLatLng));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         }
